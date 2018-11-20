@@ -23,10 +23,6 @@ export default class App extends Component {
     'Samstag'
   ]
 
-  getDate() {
-    return new Date().toLocaleDateString('de')
-  }
-
   getDay() {
     const dayIndex = new Date().getDay()
     return this.daysArray[dayIndex]
@@ -35,7 +31,7 @@ export default class App extends Component {
   render() {
     return (
       <Wrapper>
-        <JournalCard day={this.getDay()} date={() => this.getDate()} />
+        <JournalCard day={this.getDay()} date={new Date()} />
       </Wrapper>
     )
   }

@@ -29,7 +29,7 @@ export default class JournalCard extends Component {
       <Wrapper>
         <Header>
           <span>{day}</span>
-          <span>{date}</span>
+          <span>{date.toLocaleDateString('de')}</span>
         </Header>
         <ul>
           <ListItem>Work for 2 hours</ListItem>

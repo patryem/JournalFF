@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+import EntryWindow from './EntryWindow'
+import Button from './Button'
+
 const Wrapper = styled.section`
   width: 250px;
   height: 400px;
@@ -23,6 +26,14 @@ const ListItem = styled.li`
 `
 
 export default class JournalCard extends Component {
+  state = { addingEntry: false }
+
+  toggleEntryWindow = () => {
+    this.setState({
+      addingEntry: !this.state.addingEntry
+    })
+  }
+
   render() {
     const { day, date } = this.props
     return (
@@ -36,6 +47,11 @@ export default class JournalCard extends Component {
           <ListItem>Sit on a chair for 10 minutes</ListItem>
           <ListItem>Eat a bagle</ListItem>
           <ListItem>Sleep for 7 hours</ListItem>
+          {this.state.addingEntry ? (
+            <EntryWindow onClick={this.toggleEntryWindow} />
+          ) : (
+            <Button text="new Entry" onClick={this.toggleEntryWindow} />
+          )}
         </ul>
       </Wrapper>
     )

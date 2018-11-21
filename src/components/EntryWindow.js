@@ -56,32 +56,49 @@ export default class EntryWindow extends Component {
         energy: true
       }
     ],
-    mood: [
-      { text: 'happy', selected: false, id: uid() },
-      { text: 'neutral', selected: false, id: uid() },
-      { text: 'unhappy', selected: false, id: uid() }
-    ],
+
     amount: [
       { text: 'a bit', selected: false, id: uid() },
       { text: 'some', selected: false, id: uid() },
       { text: 'a lot', selected: false, id: uid() }
     ],
+
     energy: [
       { text: 'energized', selected: false, id: uid() },
       { text: 'normal', selected: false, id: uid() },
       { text: 'tired', selected: false, id: uid() }
+    ],
+
+    mood: [
+      { text: 'happy', selected: false, id: uid() },
+      { text: 'neutral', selected: false, id: uid() },
+      { text: 'unhappy', selected: false, id: uid() }
     ]
   }
 
-  renderMood() {}
+  renderTasks = () => {
+    return this.renderTags(this.state.tasks)
+  }
 
-  rendertasks() {
-    return this.state.tasks.map(task => (
+  renderAmount = () => {
+    return this.renderTags(this.state.amount)
+  }
+
+  renderEnergy = () => {
+    return this.renderTags(this.state.energy)
+  }
+
+  renderMood = () => {
+    return this.renderTags(this.state.mood)
+  }
+
+  renderTags(type) {
+    return type.map(item => (
       <EntryTag
-        text={task.text}
-        selected={task.selected}
-        onClick={() => this.selectClickedTag(task.id)}
-        key={task.id}
+        text={item.text}
+        selected={item.selected}
+        onClick={() => this.selectClickedTag(item.id)}
+        key={item.id}
       />
     ))
   }
@@ -120,7 +137,7 @@ export default class EntryWindow extends Component {
     const { onClick } = this.props
     return (
       <Wrapper>
-        {this.rendertasks()}
+        {this.renderTasks()}
         <Button text="Submit" onClick={() => onClick(this.getTag())} />
       </Wrapper>
     )

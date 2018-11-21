@@ -18,51 +18,101 @@ const Wrapper = styled.section`
 
 export default class EntryWindow extends Component {
   state = {
-    tags: [
-      { text: 'work', selected: false, id: uid() },
-      { text: 'sleep', selected: false, id: uid() },
-      { text: 'dance', selected: false, id: uid() }
+    tasks: [
+      {
+        text: 'work',
+        selected: false,
+        id: uid(),
+        time: true,
+        amount: false,
+        mood: true,
+        energy: true
+      },
+      {
+        text: 'eat',
+        selected: false,
+        id: uid(),
+        time: false,
+        amount: true,
+        mood: false,
+        energy: true
+      },
+      {
+        text: 'sleep',
+        selected: false,
+        id: uid(),
+        time: true,
+        amount: false,
+        mood: true,
+        energy: true
+      },
+      {
+        text: 'sport',
+        selected: false,
+        id: uid(),
+        time: true,
+        amount: true,
+        mood: true,
+        energy: true
+      }
+    ],
+    mood: [
+      { text: 'happy', selected: false, id: uid() },
+      { text: 'neutral', selected: false, id: uid() },
+      { text: 'unhappy', selected: false, id: uid() }
+    ],
+    amount: [
+      { text: 'a bit', selected: false, id: uid() },
+      { text: 'some', selected: false, id: uid() },
+      { text: 'a lot', selected: false, id: uid() }
+    ],
+    energy: [
+      { text: 'energized', selected: false, id: uid() },
+      { text: 'normal', selected: false, id: uid() },
+      { text: 'tired', selected: false, id: uid() }
     ]
   }
 
-  renderTags() {
-    return this.state.tags.map(tag => (
+  renderMood() {}
+
+  rendertasks() {
+    return this.state.tasks.map(task => (
       <EntryTag
-        text={tag.text}
-        selected={tag.selected}
-        onClick={() => this.selectClickedTag(tag.id)}
-        key={tag.id}
+        text={task.text}
+        selected={task.selected}
+        onClick={() => this.selectClickedTag(task.id)}
+        key={task.id}
       />
     ))
   }
 
   selectClickedTag(id) {
-    const { tags } = this.state
-    const indexNew = tags.findIndex(tag => tag.id === id)
-    const indexOld = tags.findIndex(tag => tag.selected === true)
-    let newTags
+    const { tasks } = this.state
+    const indexNew = tasks.findIndex(task => task.id === id)
+    const indexOld = tasks.findIndex(task => task.selected === true)
+    let newtasks
 
     if (indexOld >= 0) {
-      newTags = [
-        ...tags.slice(0, indexOld),
-        { ...tags[indexOld], selected: false },
-        ...tags.slice(indexOld + 1)
+      newtasks = [
+        ...tasks.slice(0, indexOld),
+        { ...tasks[indexOld], selected: false },
+        ...tasks.slice(indexOld + 1)
       ]
     } else {
-      newTags = tags
+      newtasks = tasks
     }
 
     this.setState({
-      tags: [
-        ...newTags.slice(0, indexNew),
-        { ...newTags[indexNew], selected: true },
-        ...newTags.slice(indexNew + 1)
+      tasks: [
+        ...newtasks.slice(0, indexNew),
+        { ...newtasks[indexNew], selected: true },
+        ...newtasks.slice(indexNew + 1)
       ]
     })
   }
 
   getTag = () => {
-    const findTag = this.state.tags.find(tag => tag.selected === true)
+    const findTag = this.state.tasks.find(task => task.selected === true)
     return findTag
   }
 
@@ -70,7 +120,7 @@ export default class EntryWindow extends Component {
     const { onClick } = this.props
     return (
       <Wrapper>
-        {this.renderTags()}
+        {this.rendertasks()}
         <Button text="Submit" onClick={() => onClick(this.getTag())} />
       </Wrapper>
     )

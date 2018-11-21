@@ -47,12 +47,12 @@ export default class JournalCard extends Component {
           <ListItem>Sit on a chair for 10 minutes</ListItem>
           <ListItem>Eat a bagle</ListItem>
           <ListItem>Sleep for 7 hours</ListItem>
-          {this.state.addingEntry ? (
-            <EntryWindow onClick={this.toggleEntryWindow} />
-          ) : (
-            <Button text="new Entry" onClick={this.toggleEntryWindow} />
-          )}
         </ul>
+        {this.state.addingEntry ? (
+          <EntryWindow onClick={this.toggleEntryWindow} />
+        ) : (
+          <Button text="new Entry" onClick={this.toggleEntryWindow} />
+        )}
       </Wrapper>
     )
   }

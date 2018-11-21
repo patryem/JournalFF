@@ -31,15 +31,15 @@ export default class JournalCard extends Component {
     entryTexts: ['Work for 2 hours', 'Eat a bagle']
   }
 
+  handleSubmit = text => {
+    this.toggleEntryWindow()
+    text != null ? this.addJournalText(text) : console.log('No Entry added')
+  }
+
   toggleEntryWindow = () => {
     this.setState({
       addingEntry: !this.state.addingEntry
     })
-  }
-
-  getJournalText = text => {
-    this.toggleEntryWindow()
-    this.addJournalText(text)
   }
 
   addJournalText = text => {
@@ -62,7 +62,7 @@ export default class JournalCard extends Component {
         </Header>
         <ul>{this.renderJournalText()}</ul>
         {this.state.addingEntry ? (
-          <EntryWindow onClick={text => this.addJournalText(text)} />
+          <EntryWindow onClick={text => this.handleSubmit(text)} />
         ) : (
           <Button text="new Entry" onClick={this.toggleEntryWindow} />
         )}

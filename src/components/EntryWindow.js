@@ -25,6 +25,17 @@ export default class EntryWindow extends Component {
     ]
   }
 
+  renderTags() {
+    return this.state.tags.map(tag => (
+      <EntryTag
+        text={tag.text}
+        selected={tag.selected}
+        onClick={() => this.selectClickedTag(tag.id)}
+        key={tag.id}
+      />
+    ))
+  }
+
   selectClickedTag(id) {
     const { tags } = this.state
     const indexNew = tags.findIndex(tag => tag.id === id)
@@ -53,20 +64,9 @@ export default class EntryWindow extends Component {
     })
   }
 
-  renderTags() {
-    return this.state.tags.map(tag => (
-      <EntryTag
-        text={tag.text}
-        selected={tag.selected}
-        onClick={() => this.selectClickedTag(tag.id)}
-        key={tag.id}
-      />
-    ))
-  }
-
-  findText = () => {
+  getText = () => {
     const findTag = this.state.tags.find(tag => tag.selected === true)
-    return findTag.text
+    return findTag != null ? findTag.text : null
   }
 
   render() {
@@ -74,7 +74,7 @@ export default class EntryWindow extends Component {
     return (
       <Wrapper>
         {this.renderTags()}
-        <Button text="Submit" onClick={() => onClick(this.findText())} />
+        <Button text="Submit" onClick={() => onClick(this.getText())} />
       </Wrapper>
     )
   }

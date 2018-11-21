@@ -64,12 +64,17 @@ export default class EntryWindow extends Component {
     ))
   }
 
+  findText = () => {
+    const findTag = this.state.tags.find(tag => tag.selected === true)
+    return findTag.text
+  }
+
   render() {
     const { onClick } = this.props
     return (
       <Wrapper>
-        <Button text="Submit" onClick={onClick} />
         {this.renderTags()}
+        <Button text="Submit" onClick={() => onClick(this.findText())} />
       </Wrapper>
     )
   }

@@ -26,12 +26,30 @@ const ListItem = styled.li`
 `
 
 export default class JournalCard extends Component {
-  state = { addingEntry: false }
+  state = {
+    addingEntry: false,
+    entryTexts: ['Work for 2 hours', 'Eat a bagle']
+  }
 
   toggleEntryWindow = () => {
     this.setState({
       addingEntry: !this.state.addingEntry
     })
+  }
+
+  getJournalText = text => {
+    this.toggleEntryWindow()
+    this.addJournalText(text)
+  }
+
+  addJournalText = text => {
+    this.setState({
+      entryTexts: [...this.state.entryTexts, text]
+    })
+  }
+
+  renderJournalText() {
+    return this.state.entryTexts.map(text => <ListItem>{text}</ListItem>)
   }
 
   render() {
@@ -42,14 +60,9 @@ export default class JournalCard extends Component {
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
         </Header>
-        <ul>
-          <ListItem>Work for 2 hours</ListItem>
-          <ListItem>Sit on a chair for 10 minutes</ListItem>
-          <ListItem>Eat a bagle</ListItem>
-          <ListItem>Sleep for 7 hours</ListItem>
-        </ul>
+        <ul>{this.renderJournalText()}</ul>
         {this.state.addingEntry ? (
-          <EntryWindow onClick={this.toggleEntryWindow} />
+          <EntryWindow onClick={text => this.addJournalText(text)} />
         ) : (
           <Button text="new Entry" onClick={this.toggleEntryWindow} />
         )}

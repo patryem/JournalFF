@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import uid from 'uid'
 
 import EntryWindow from './EntryWindow'
 import Button from './Button'
@@ -31,9 +32,9 @@ export default class JournalCard extends Component {
     entryTexts: ['Work for 2 hours', 'Eat a bagle']
   }
 
-  handleSubmit = text => {
+  handleSubmit = tag => {
     this.toggleEntryWindow()
-    text != null ? this.addJournalText(text) : console.log('No Entry added')
+    tag != null ? this.addJournalText(tag.text) : console.log('No Entry added')
   }
 
   toggleEntryWindow = () => {
@@ -49,7 +50,9 @@ export default class JournalCard extends Component {
   }
 
   renderJournalText() {
-    return this.state.entryTexts.map(text => <ListItem>{text}</ListItem>)
+    return this.state.entryTexts.map(text => (
+      <ListItem key={uid()}>{text}</ListItem>
+    ))
   }
 
   render() {

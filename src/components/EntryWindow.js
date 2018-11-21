@@ -11,9 +11,9 @@ const Wrapper = styled.section`
   background: rgba(111, 111, 124, 0.8);
   padding: 10px;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-auto-rows: 30px;
+  grid-gap: 10px;
 `
 
 export default class EntryWindow extends Component {
@@ -52,9 +52,6 @@ export default class EntryWindow extends Component {
       newTags = tags
     }
 
-    console.log(newTags)
-    console.log(indexNew)
-    console.log(indexOld)
     this.setState({
       tags: [
         ...newTags.slice(0, indexNew),
@@ -64,9 +61,9 @@ export default class EntryWindow extends Component {
     })
   }
 
-  getText = () => {
+  getTag = () => {
     const findTag = this.state.tags.find(tag => tag.selected === true)
-    return findTag != null ? findTag.text : null
+    return findTag
   }
 
   render() {
@@ -74,7 +71,7 @@ export default class EntryWindow extends Component {
     return (
       <Wrapper>
         {this.renderTags()}
-        <Button text="Submit" onClick={() => onClick(this.getText())} />
+        <Button text="Submit" onClick={() => onClick(this.getTag())} />
       </Wrapper>
     )
   }

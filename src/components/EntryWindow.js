@@ -76,20 +76,38 @@ export default class EntryWindow extends Component {
     ]
   }
 
-  renderTasks() {
+  renderTasks = () => {
     return this.renderTags(this.state.tasks, 'tasks')
   }
 
   renderAmount() {
-    return this.renderTags(this.state.amount, 'amount')
+    const selectedTask = this.state.tasks.find(task => task.selected === true)
+    if (selectedTask == null) {
+      return null
+    } else {
+      if (selectedTask.amount === true)
+        return this.renderTags(this.state.amount, 'amount')
+    }
   }
 
   renderEnergy() {
-    return this.renderTags(this.state.energy, 'energy')
+    const selectedTask = this.state.tasks.find(task => task.selected === true)
+    if (selectedTask == null) {
+      return null
+    } else {
+      if (selectedTask.energy === true)
+        return this.renderTags(this.state.energy, 'energy')
+    }
   }
 
   renderMood() {
-    return this.renderTags(this.state.mood, 'mood')
+    const selectedTask = this.state.tasks.find(task => task.selected === true)
+    if (selectedTask == null) {
+      return null
+    } else {
+      if (selectedTask.mood === true)
+        return this.renderTags(this.state.mood, 'mood')
+    }
   }
 
   renderTags(type, typeName) {
@@ -101,18 +119,6 @@ export default class EntryWindow extends Component {
         key={item.id}
       />
     ))
-  }
-
-  renderSelector(tasksArray) {
-    const selectedTask = tasksArray.find(task => task.selected === true)
-
-    if (selectedTask.amount === true) {
-      this.renderAmount()
-      console.log(selectedTask)
-    }
-
-    if (selectedTask.energy === true) return this.renderEnergy()
-    if (selectedTask.mood === true) return this.renderMood()
   }
 
   stateUpdateSelector(typeName, newArray) {
@@ -132,7 +138,6 @@ export default class EntryWindow extends Component {
       this.setState({
         mood: newArray
       })
-    this.renderSelector(newArray)
   }
 
   selectClickedTag(id, type, typeName) {
@@ -169,6 +174,9 @@ export default class EntryWindow extends Component {
     return (
       <Wrapper>
         {this.renderTasks()}
+        {this.renderAmount()}
+        {this.renderEnergy()}
+        {this.renderMood()}
         <Button text="Submit" onClick={() => onClick(this.getTag())} />
       </Wrapper>
     )

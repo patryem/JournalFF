@@ -32,9 +32,9 @@ export default class JournalCard extends Component {
     entryTexts: ['Work for 2 hours', 'Eat a bagle']
   }
 
-  handleSubmit = tag => {
+  handleSubmit = entry => {
     this.toggleEntryWindow()
-    tag != null ? this.addJournalText(tag.text) : console.log('No Entry added')
+    entry != null ? this.addJournalText(entry) : console.log('No Entry added')
   }
 
   toggleEntryWindow = () => {
@@ -43,9 +43,15 @@ export default class JournalCard extends Component {
     })
   }
 
-  addJournalText = text => {
+  addJournalText = entry => {
+    let newEntryText = ''
+    entry.forEach(entryobject => {
+      if (entryobject != null)
+        newEntryText = newEntryText + ` ` + entryobject.text
+    })
+
     this.setState({
-      entryTexts: [...this.state.entryTexts, text]
+      entryTexts: [...this.state.entryTexts, newEntryText]
     })
   }
 
@@ -65,7 +71,7 @@ export default class JournalCard extends Component {
         </Header>
         <ul>{this.renderJournalText()}</ul>
         {this.state.addingEntry ? (
-          <EntryWindow onClick={text => this.handleSubmit(text)} />
+          <EntryWindow onClick={entry => this.handleSubmit(entry)} />
         ) : (
           <Button text="new Entry" onClick={this.toggleEntryWindow} />
         )}

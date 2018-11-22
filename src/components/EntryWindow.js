@@ -164,9 +164,15 @@ export default class EntryWindow extends Component {
     this.stateUpdateSelector(typeName, newArray)
   }
 
-  getTag = () => {
-    const findTag = this.state.tasks.find(task => task.selected === true)
-    return findTag
+  getEntry = () => {
+    const task = this.state.tasks.find(item => item.selected === true)
+    const amount = this.state.amount.find(item => item.selected === true)
+    const energy = this.state.energy.find(item => item.selected === true)
+    const mood = this.state.mood.find(item => item.selected === true)
+
+    const entry = [task, amount, energy, mood]
+
+    return entry
   }
 
   render() {
@@ -177,7 +183,7 @@ export default class EntryWindow extends Component {
         {this.renderAmount()}
         {this.renderEnergy()}
         {this.renderMood()}
-        <Button text="Submit" onClick={() => onClick(this.getTag())} />
+        <Button text="Submit" onClick={() => onClick(this.getEntry())} />
       </Wrapper>
     )
   }

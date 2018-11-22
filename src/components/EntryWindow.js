@@ -170,7 +170,12 @@ export default class EntryWindow extends Component {
     const energy = this.state.energy.find(item => item.selected === true)
     const mood = this.state.mood.find(item => item.selected === true)
 
-    const entry = [task, amount, energy, mood]
+    const entry = [
+      { task: task },
+      { amount: amount },
+      { energy: energy },
+      { mood: mood }
+    ]
 
     return entry
   }

@@ -44,11 +44,24 @@ export default class JournalCard extends Component {
   }
 
   addJournalText = entry => {
-    let newEntryText = ''
-    entry.forEach(entryobject => {
-      if (entryobject != null)
-        newEntryText = newEntryText + ` ` + entryobject.text
-    })
+    let newEntryText = ``
+
+    if (entry[1].amount != null) {
+      newEntryText = newEntryText + entry[1].amount.text
+    }
+    newEntryText = newEntryText + ` ` + entry[0].task.text + `ing. `
+    if (entry[3].mood != null && entry[2].energy != null) {
+      newEntryText =
+        newEntryText +
+        `I feel ` +
+        entry[3].mood.text +
+        ` and ` +
+        entry[2].energy.text
+    } else if (entry[3].mood != null) {
+      newEntryText = newEntryText + `I feel ` + entry[3].mood.text
+    } else if (entry[2].energy != null) {
+      newEntryText = newEntryText + `I feel ` + entry[2].energy.text
+    }
 
     this.setState({
       entryTexts: [...this.state.entryTexts, newEntryText]

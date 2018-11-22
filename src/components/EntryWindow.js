@@ -103,9 +103,19 @@ export default class EntryWindow extends Component {
     ))
   }
 
-  renderSelector() {}
+  renderSelector(tasksArray) {
+    const selectedTask = tasksArray.find(task => task.selected === true)
 
-  changeState(typeName, newArray) {
+    if (selectedTask.amount === true) {
+      this.renderAmount()
+      console.log(selectedTask)
+    }
+
+    if (selectedTask.energy === true) return this.renderEnergy()
+    if (selectedTask.mood === true) return this.renderMood()
+  }
+
+  stateUpdateSelector(typeName, newArray) {
     if (typeName === 'tasks')
       this.setState({
         tasks: newArray
@@ -122,6 +132,7 @@ export default class EntryWindow extends Component {
       this.setState({
         mood: newArray
       })
+    this.renderSelector(newArray)
   }
 
   selectClickedTag(id, type, typeName) {
@@ -145,7 +156,7 @@ export default class EntryWindow extends Component {
       ...newArray.slice(indexNew + 1)
     ]
 
-    this.changeState(typeName, newArray)
+    this.stateUpdateSelector(typeName, newArray)
   }
 
   getTag = () => {

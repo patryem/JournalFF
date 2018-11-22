@@ -76,56 +76,76 @@ export default class EntryWindow extends Component {
     ]
   }
 
-  renderTasks = () => {
-    return this.renderTags(this.state.tasks)
+  renderTasks() {
+    return this.renderTags(this.state.tasks, 'tasks')
   }
 
-  renderAmount = () => {
-    return this.renderTags(this.state.amount)
+  renderAmount() {
+    return this.renderTags(this.state.amount, 'amount')
   }
 
-  renderEnergy = () => {
-    return this.renderTags(this.state.energy)
+  renderEnergy() {
+    return this.renderTags(this.state.energy, 'energy')
   }
 
-  renderMood = () => {
-    return this.renderTags(this.state.mood)
+  renderMood() {
+    return this.renderTags(this.state.mood, 'mood')
   }
 
-  renderTags(type) {
+  renderTags(type, typeName) {
     return type.map(item => (
       <EntryTag
         text={item.text}
         selected={item.selected}
-        onClick={() => this.selectClickedTag(item.id)}
+        onClick={() => this.selectClickedTag(item.id, type, typeName)}
         key={item.id}
       />
     ))
   }
 
-  selectClickedTag(id) {
-    const { tasks } = this.state
-    const indexNew = tasks.findIndex(task => task.id === id)
-    const indexOld = tasks.findIndex(task => task.selected === true)
-    let newtasks
+  renderSelector() {}
+
+  changeState(typeName, newArray) {
+    if (typeName === 'tasks')
+      this.setState({
+        tasks: newArray
+      })
+    else if (typeName === 'amount')
+      this.setState({
+        amount: newArray
+      })
+    else if (typeName === 'energy')
+      this.setState({
+        energy: newArray
+      })
+    else
+      this.setState({
+        mood: newArray
+      })
+  }
+
+  selectClickedTag(id, type, typeName) {
+    const indexNew = type.findIndex(task => task.id === id)
+    const indexOld = type.findIndex(task => task.selected === true)
+    let newArray
 
     if (indexOld >= 0) {
-      newtasks = [
-        ...tasks.slice(0, indexOld),
-        { ...tasks[indexOld], selected: false },
-        ...tasks.slice(indexOld + 1)
+      newArray = [
+        ...type.slice(0, indexOld),
+        { ...type[indexOld], selected: false },
+        ...type.slice(indexOld + 1)
       ]
     } else {
-      newtasks = tasks
+      newArray = type
     }
 
-    this.setState({
-      tasks: [
-        ...newtasks.slice(0, indexNew),
-        { ...newtasks[indexNew], selected: true },
-        ...newtasks.slice(indexNew + 1)
-      ]
-    })
+    newArray = [
+      ...newArray.slice(0, indexNew),
+      { ...newArray[indexNew], selected: true },
+      ...newArray.slice(indexNew + 1)
+    ]
+
+    this.changeState(typeName, newArray)
   }
 
   getTag = () => {

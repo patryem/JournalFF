@@ -90,7 +90,7 @@ export default class JournalCard extends Component {
     const { day, date } = this.props
     return (
       <Wrapper data-cy="JournalCard">
-        <Header>
+        <Header data-cy="Date">
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
         </Header>

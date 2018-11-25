@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import uid from 'uid'
+import PropTypes from 'prop-types'
 
 import Button from './Button'
 import EntryTag from './EntryTag'
@@ -17,6 +18,10 @@ const Wrapper = styled.section`
 `
 
 export default class EntryWindow extends Component {
+  static propTypes = {
+    onClick: PropTypes.func.isRequired
+  }
+
   state = {
     tasks: [
       {
@@ -183,7 +188,7 @@ export default class EntryWindow extends Component {
   render() {
     const { onClick } = this.props
     return (
-      <Wrapper>
+      <Wrapper data-cy="EntryWindow">
         {this.renderTasks()}
         {this.renderAmount()}
         {this.renderEnergy()}

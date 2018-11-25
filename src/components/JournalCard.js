@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import uid from 'uid'
+import PropTypes from 'prop-types'
 
 import EntryWindow from './EntryWindow'
 import Button from './Button'
@@ -27,6 +28,15 @@ const ListItem = styled.li`
 `
 
 export default class JournalCard extends Component {
+  static propTypes = {
+    day: PropTypes.string,
+    date: PropTypes.string
+  }
+
+  static defaultProps = {
+    day: 'Today'
+  }
+
   state = {
     addingEntry: false,
     entryTexts: ['Work for 2 hours', 'Eat a bagle']
@@ -77,7 +87,7 @@ export default class JournalCard extends Component {
   render() {
     const { day, date } = this.props
     return (
-      <Wrapper>
+      <Wrapper data-cy="JournalCard">
         <Header>
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
@@ -86,7 +96,7 @@ export default class JournalCard extends Component {
         {this.state.addingEntry ? (
           <EntryWindow onClick={entry => this.handleSubmit(entry)} />
         ) : (
-          <Button text="new Entry" onClick={this.toggleEntryWindow} />
+          <Button text="New Entry" onClick={this.toggleEntryWindow} />
         )}
       </Wrapper>
     )

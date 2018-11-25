@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 const Tag = styled.div`
   background: #555;
@@ -13,10 +14,20 @@ const Tag = styled.div`
 `
 
 export default class EntryTag extends Component {
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    selected: PropTypes.bool.isRequired
+  }
+
   render() {
     const { text, onClick, selected } = this.props
     return (
-      <Tag onClick={onClick} className={selected ? 'selected' : ''}>
+      <Tag
+        data-cy="EntryTag"
+        onClick={onClick}
+        className={selected ? 'selected' : ''}
+      >
         {text}
       </Tag>
     )

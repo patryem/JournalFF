@@ -44,7 +44,9 @@ export default class JournalCard extends Component {
 
   handleSubmit = entry => {
     this.toggleEntryWindow()
-    entry != null ? this.addJournalText(entry) : console.log('No Entry added')
+    entry.task != null
+      ? this.addJournalText(entry)
+      : console.log('No Entry added')
   }
 
   toggleEntryWindow = () => {
@@ -56,21 +58,21 @@ export default class JournalCard extends Component {
   addJournalText = entry => {
     let newEntryText = `I did `
 
-    if (entry[1].amount != null) {
-      newEntryText = newEntryText + entry[1].amount.text
+    if (entry.amount != null) {
+      newEntryText = newEntryText + entry.amount.text
     }
-    newEntryText = newEntryText + ` ` + entry[0].task.text + `ing `
-    if (entry[3].mood != null && entry[2].energy != null) {
+    newEntryText = newEntryText + ` ` + entry.task.text + `ing `
+    if (entry.mood != null && entry.energy != null) {
       newEntryText =
         newEntryText +
         `and feel ` +
-        entry[3].mood.text +
+        entry.mood.text +
         ` and ` +
-        entry[2].energy.text
-    } else if (entry[3].mood != null) {
-      newEntryText = newEntryText + `and feel ` + entry[3].mood.text
-    } else if (entry[2].energy != null) {
-      newEntryText = newEntryText + `and feel ` + entry[2].energy.text
+        entry.energy.text
+    } else if (entry.mood != null) {
+      newEntryText = newEntryText + `and feel ` + entry.mood.text
+    } else if (entry.energy != null) {
+      newEntryText = newEntryText + `and feel ` + entry.energy.text
     }
 
     this.setState({

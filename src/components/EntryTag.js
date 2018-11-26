@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const Tag = styled.div`
-  background: #555;
+  background: #7aa8bf;
   border-radius: 5%;
-  color: #eee;
+  color: #333;
   max-width: 100px;
   text-align: center;
   &.selected {
-    background: violet;
+    background: #deffff;
   }
 `
 

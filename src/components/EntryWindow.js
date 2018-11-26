@@ -7,13 +7,15 @@ import Button from './Button'
 import EntryTag from './EntryTag'
 
 const Wrapper = styled.section`
-  width: 200px;
+  width: 85vw;
   height: 250px;
-  background: rgba(111, 111, 124, 0.8);
+  background: #fefefe;
+  box-shadow: 0 3px 5px 0 #ccc;
   padding: 10px;
   box-sizing: border-box;
   display: grid;
   grid-auto-rows: 30px;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;
 `
 

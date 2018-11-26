@@ -7,22 +7,27 @@ import EntryWindow from './EntryWindow'
 import Button from './Button'
 
 const Wrapper = styled.section`
-  width: 250px;
+  width: 90vw;
   height: 400px;
-  background: rgb(248, 236, 194);
-  padding: 10px;
+  background: #efefef;
   box-sizing: border-box;
+  display: grid;
+  grid-template-rows: 50px auto;
 `
 
 const Header = styled.h1`
-  margin: 0;
-  font-size: 24px;
-  color: #333;
+  grid-column: 1 / -1;
   display: flex;
   justify-content: space-around;
+  margin: 0;
+  padding: 10px;
+  font-size: 24px;
+  background: #abdaf2;
+  color: #333;
 `
 
 const ListItem = styled.li`
+  grid-column: 1 / -1;
   font-size: 18px;
   color: rgb(0, 15, 85);
 `
@@ -30,7 +35,7 @@ const ListItem = styled.li`
 export default class JournalCard extends Component {
   static propTypes = {
     day: PropTypes.string,
-    date: PropTypes.string
+    date: PropTypes.object
   }
 
   static defaultProps = {

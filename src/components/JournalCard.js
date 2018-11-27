@@ -13,6 +13,7 @@ const Wrapper = styled.section`
   display: grid;
   grid-template-rows: 50px auto;
 `
+
 const CardNav = styled.section`
   box-sizing: border-box;
   height: 100px;
@@ -50,7 +51,15 @@ export default class JournalCard extends Component {
 
   state = {
     addingEntry: false,
-    entryTexts: ['Work for 2 hours', 'Eat a bagle']
+    entryTexts: [
+      {
+        text:
+          'I was working a bit. The sensation i felt could be described as an energizing process of true happyfication.',
+        task: 'work',
+        energy: 'energized',
+        mood: 'happy'
+      }
+    ]
   }
 
   handleSubmit = entry => {
@@ -111,6 +120,7 @@ export default class JournalCard extends Component {
         ) : (
           <CardNav>
             <Button text="New Entry" onClick={this.toggleEntryWindow} />
+            <Button text="Edit" onClick={this.toggleEntryWindow} />
           </CardNav>
         )}
       </Wrapper>

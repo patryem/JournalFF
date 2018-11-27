@@ -8,6 +8,7 @@ import JournalCard from '../components/JournalCard'
 import Button from '../components/Button'
 import EntryWindow from '../components/EntryWindow'
 import EntryTag from '../components/EntryTag'
+import Separator from '../components/Separator'
 
 import StyleBox from './StyleBox'
 
@@ -59,4 +60,12 @@ storiesOf('JournalCard', module).add('JournalCard', () => (
     )}
     date={dateKnob('Datum', new Date('2010-08-17'))}
   />
+))
+
+storiesOf('Separator', module).add('default', () => (
+  <React.Fragment>
+    <Separator text="One" />
+    <StyleBox h={40} />
+    <Separator text="Two words" />
+  </React.Fragment>
 ))

@@ -5,10 +5,11 @@ import PropTypes from 'prop-types'
 const ButtonEl = styled.button`
   background: #750000;
   border: none;
-  border-radius: 2px;
-  padding: 5px;
-  box-shadow: 0px 1px 2px rgba(111, 111, 124, 0.8);
+  border-radius: 4px;
+  padding: 8px;
+  box-shadow: 0 2px 4px rgba(10, 10, 13, 0.12), 0 1px 2px rgba(10, 10, 13, 0.8);
   color: #eee;
+  font-size: 20px;
 `
 
 export default class Button extends Component {

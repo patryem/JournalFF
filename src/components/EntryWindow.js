@@ -5,16 +5,16 @@ import PropTypes from 'prop-types'
 
 import Button from './Button'
 import EntryTag from './EntryTag'
+import Separator from './Separator'
 
 const Wrapper = styled.section`
   width: 85vw;
-  height: 250px;
   background: #fefefe;
   box-shadow: 0 3px 5px 0 #ccc;
   padding: 10px;
   box-sizing: border-box;
   display: grid;
-  grid-auto-rows: 30px;
+  grid-auto-rows: 40px;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;
 `
@@ -93,7 +93,12 @@ export default class EntryWindow extends Component {
       return null
     } else {
       if (selectedTask.amount === true)
-        return this.renderTags(this.state.amount, 'amount')
+        return (
+          <React.Fragment>
+            <Separator text="Amount" />
+            {this.renderTags(this.state.amount, 'amount')}
+          </React.Fragment>
+        )
     }
   }
 
@@ -103,7 +108,12 @@ export default class EntryWindow extends Component {
       return null
     } else {
       if (selectedTask.energy === true)
-        return this.renderTags(this.state.energy, 'energy')
+        return (
+          <React.Fragment>
+            <Separator text="Energy" />
+            {this.renderTags(this.state.energy, 'energy')}
+          </React.Fragment>
+        )
     }
   }
 
@@ -113,7 +123,12 @@ export default class EntryWindow extends Component {
       return null
     } else {
       if (selectedTask.mood === true)
-        return this.renderTags(this.state.mood, 'mood')
+        return (
+          <React.Fragment>
+            <Separator text="Mood" />
+            {this.renderTags(this.state.mood, 'mood')}{' '}
+          </React.Fragment>
+        )
     }
   }
 

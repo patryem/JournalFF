@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import uid from 'uid'
 import PropTypes from 'prop-types'
 
 import EntryWindow from './EntryWindow'
@@ -8,11 +7,18 @@ import Button from './Button'
 
 const Wrapper = styled.section`
   width: 90vw;
-  height: 400px;
+  min-height: 80vh;
   background: #efefef;
   box-sizing: border-box;
   display: grid;
   grid-template-rows: 50px auto;
+`
+const CardNav = styled.section`
+  box-sizing: border-box;
+  height: 100px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 30px;
 `
 
 const Header = styled.h1`
@@ -49,9 +55,7 @@ export default class JournalCard extends Component {
 
   handleSubmit = entry => {
     this.toggleEntryWindow()
-    entry.task != null
-      ? this.addJournalText(entry)
-      : console.log('No Entry added')
+    if (entry.task != null) this.addJournalText(entry)
   }
 
   toggleEntryWindow = () => {
@@ -66,7 +70,9 @@ export default class JournalCard extends Component {
     if (entry.amount != null) {
       newEntryText = newEntryText + entry.amount.text
     }
+
     newEntryText = newEntryText + ` ` + entry.task.text + `ing `
+
     if (entry.mood != null && entry.energy != null) {
       newEntryText =
         newEntryText +
@@ -85,9 +91,9 @@ export default class JournalCard extends Component {
     })
   }
 
-  renderJournalText() {
-    return this.state.entryTexts.map(text => (
-      <ListItem key={uid()}>{text}</ListItem>
+  renderJournalTexts() {
+    return this.state.entryTexts.map((text, index) => (
+      <ListItem key={index}>{text}</ListItem>
     ))
   }
 
@@ -99,11 +105,13 @@ export default class JournalCard extends Component {
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
         </Header>
-        <ul>{this.renderJournalText()}</ul>
+        <ul>{this.renderJournalTexts()}</ul>
         {this.state.addingEntry ? (
           <EntryWindow onClick={entry => this.handleSubmit(entry)} />
         ) : (
-          <Button text="New Entry" onClick={this.toggleEntryWindow} />
+          <CardNav>
+            <Button text="New Entry" onClick={this.toggleEntryWindow} />
+          </CardNav>
         )}
       </Wrapper>
     )

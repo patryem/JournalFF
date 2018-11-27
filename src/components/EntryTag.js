@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 
 const Tag = styled.div`
   background: #7aa8bf;
-  border-radius: 5%;
+  border-radius: 5px;
   color: #333;
   max-width: 100px;
   text-align: center;
+  font-size: 20px;
   &.selected {
     background: #deffff;
   }

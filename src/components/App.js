@@ -6,10 +6,7 @@ import JournalCard from './JournalCard'
 const Wrapper = styled.section`
   display: flex;
   justify-content: center;
-  align-items: center;
   box-sizing: border-box;
-  width: 100vw;
-  height: 100vh;
 `
 
 export default class App extends Component {

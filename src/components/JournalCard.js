@@ -96,13 +96,13 @@ export default class JournalCard extends Component {
     }
 
     this.setState({
-      entryTexts: [...this.state.entryTexts, newEntryText]
+      entryTexts: [...this.state.entryTexts, { text: newEntryText, ...entry }]
     })
   }
 
   renderJournalTexts() {
     return this.state.entryTexts.map((text, index) => (
-      <ListItem key={index}>{text}</ListItem>
+      <ListItem key={index}>{text.text}</ListItem>
     ))
   }
 

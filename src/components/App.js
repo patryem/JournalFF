@@ -26,9 +26,7 @@ export default class App extends Component {
       {
         text:
           'I was working a bit. The sensation i felt could be described as an energizing process of true happyfication.',
-        task: 'work',
-        energy: 'energized',
-        mood: 'happy'
+        textConfig: { task: 'work', energy: 'energized', mood: 'happy' }
       }
     ],
     tasks: [
@@ -115,6 +113,7 @@ export default class App extends Component {
           renderMood={this.renderMood}
           renderTasks={this.renderTasks}
           toggleEntryWindow={this.toggleEntryWindow}
+          loadAllTags={this.loadAllTags}
         />
       </Wrapper>
     )
@@ -204,7 +203,7 @@ export default class App extends Component {
     })
   }
 
-  createTextConfig(entry) {
+  createTextConfig = entry => {
     let textConfig
     if (entry.amount != null)
       textConfig = { ...textConfig, amount: entry.amount.text }
@@ -258,7 +257,7 @@ export default class App extends Component {
     ))
   }
 
-  resetTags = () => {
+  resetTags() {
     const tasksReseted = this.state.tasks.map(task => {
       task.selected = false
       return task
@@ -287,7 +286,39 @@ export default class App extends Component {
     })
   }
 
-  selectClickedTag(id, type, typeName) {
+  loadAllTags = () => {
+    const textConfig = this.state.entryTexts[0].textConfig
+
+    this.loadSelectedTags(this.state.tasks, 'tasks', textConfig.task)
+
+    if (textConfig.amount != null) {
+      this.loadSelectedTags(this.state.amount, 'amount', textConfig.amount)
+    }
+
+    if (textConfig.energy != null) {
+      this.loadSelectedTags(this.state.energy, 'energy', textConfig.energy)
+    }
+
+    if (textConfig.mood != null) {
+      this.loadSelectedTags(this.state.mood, 'mood', textConfig.mood)
+    }
+
+    this.setState({
+      addingEntry: !this.state.addingEntry
+    })
+  }
+
+  loadSelectedTags = (type, typeName, value) => {
+    const index = type.findIndex(item => item.text === value)
+    const newArray = [
+      ...type.slice(0, index),
+      { ...type[index], selected: true },
+      ...type.slice(index + 1)
+    ]
+    this.stateUpdateSelector(typeName, newArray)
+  }
+
+  selectClickedTag = (id, type, typeName) => {
     const indexNew = type.findIndex(task => task.id === id)
     const indexOld = type.findIndex(task => task.selected === true)
     let newArray
@@ -311,7 +342,7 @@ export default class App extends Component {
     this.stateUpdateSelector(typeName, newArray)
   }
 
-  stateUpdateSelector(typeName, newArray) {
+  stateUpdateSelector = (typeName, newArray) => {
     if (typeName === 'tasks')
       this.setState({
         tasks: newArray

@@ -55,7 +55,6 @@ export default class JournalCard extends Component {
       renderEnergy,
       renderMood,
       renderTasks,
-      getEntry,
       addingEntry,
       editEntry
     } = this.props
@@ -68,13 +67,12 @@ export default class JournalCard extends Component {
         <ul>{renderJournalTexts}</ul>
         {addingEntry ? (
           <EntryWindow
-            onClick={entry => handleSubmit(entry)}
+            onClick={handleSubmit}
             data={data}
             renderAmount={renderAmount}
             renderEnergy={renderEnergy}
             renderMood={renderMood}
             renderTasks={renderTasks}
-            getEntry={getEntry}
           />
         ) : (
           <CardNav>

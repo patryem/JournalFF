@@ -112,30 +112,34 @@ export default class App extends Component {
   }
 
   addJournalText = entry => {
-    let newEntryText = `I did `
+    if (entry.task != null) {
+      let newEntryText = `I did `
 
-    if (entry.amount != null) {
-      newEntryText = newEntryText + entry.amount.text
+      if (entry.amount != null) {
+        newEntryText = newEntryText + entry.amount.text
+      }
+
+      newEntryText = newEntryText + ` ` + entry.task.text + `ing `
+
+      if (entry.mood != null && entry.energy != null) {
+        newEntryText =
+          newEntryText +
+          `and feel ` +
+          entry.mood.text +
+          ` and ` +
+          entry.energy.text
+      } else if (entry.mood != null) {
+        newEntryText = newEntryText + `and feel ` + entry.mood.text
+      } else if (entry.energy != null) {
+        newEntryText = newEntryText + `and feel ` + entry.energy.text
+      }
+
+      console.log(newEntryText)
+
+      this.setState({
+        entryTexts: [...this.state.entryTexts, newEntryText]
+      })
     }
-
-    newEntryText = newEntryText + ` ` + entry.task.text + `ing `
-
-    if (entry.mood != null && entry.energy != null) {
-      newEntryText =
-        newEntryText +
-        `and feel ` +
-        entry.mood.text +
-        ` and ` +
-        entry.energy.text
-    } else if (entry.mood != null) {
-      newEntryText = newEntryText + `and feel ` + entry.mood.text
-    } else if (entry.energy != null) {
-      newEntryText = newEntryText + `and feel ` + entry.energy.text
-    }
-
-    this.setState({
-      entryTexts: [...this.state.entryTexts, { text: newEntryText, ...entry }]
-    })
   }
 
   stateUpdateSelector(typeName, newArray) {
@@ -157,9 +161,16 @@ export default class App extends Component {
       })
   }
 
-  handleSubmit = entry => {
+  handleSubmit = () => {
+    const task = this.state.tasks.find(item => item.selected === true)
+    const amount = this.state.amount.find(item => item.selected === true)
+    const energy = this.state.energy.find(item => item.selected === true)
+    const mood = this.state.mood.find(item => item.selected === true)
+
+    const entry = { task: task, amount: amount, energy: energy, mood: mood }
+
     this.toggleEntryWindow()
-    if (entry.task != null) this.addJournalText(entry)
+    this.addJournalText(entry)
   }
 
   renderJournalTexts = () => {
@@ -252,17 +263,6 @@ export default class App extends Component {
     this.stateUpdateSelector(typeName, newArray)
   }
 
-  getEntry = () => {
-    const task = this.state.tasks.find(item => item.selected === true)
-    const amount = this.state.amount.find(item => item.selected === true)
-    const energy = this.state.energy.find(item => item.selected === true)
-    const mood = this.state.mood.find(item => item.selected === true)
-
-    const entry = { task: task, amount: amount, energy: energy, mood: mood }
-
-    return entry
-  }
-
   render() {
     return (
       <Wrapper>
@@ -277,7 +277,6 @@ export default class App extends Component {
           renderEnergy={this.renderEnergy()}
           renderMood={this.renderMood()}
           renderTasks={this.renderTasks()}
-          getEntry={() => this.getEntry()}
           addingEntry={this.state.addingEntry}
           editEntry={this.state.editEntry}
         />

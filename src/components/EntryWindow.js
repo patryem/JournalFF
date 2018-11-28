@@ -27,8 +27,7 @@ export default class EntryWindow extends Component {
       renderAmount,
       renderEnergy,
       renderMood,
-      renderTasks,
-      getEntry
+      renderTasks
     } = this.props
     return (
       <Wrapper data-cy="EntryWindow">
@@ -36,7 +35,7 @@ export default class EntryWindow extends Component {
         {renderAmount}
         {renderEnergy}
         {renderMood}
-        <Button text="Submit" onClick={() => onClick(getEntry())} />
+        <Button text="Submit" onClick={onClick} />
       </Wrapper>
     )
   }

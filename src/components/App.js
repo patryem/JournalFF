@@ -100,9 +100,102 @@ export default class App extends Component {
     'Samstag'
   ]
 
+  render() {
+    return (
+      <Wrapper>
+        <JournalCard
+          addingEntry={this.state.addingEntry}
+          day={this.getDay()}
+          date={new Date()}
+          data={this.props.state}
+          editEntry={this.state.editEntry}
+          handleSubmit={this.handleSubmit}
+          renderJournalTexts={this.renderJournalTexts}
+          renderAmount={this.renderAmount}
+          renderEnergy={this.renderEnergy}
+          renderMood={this.renderMood}
+          renderTasks={this.renderTasks}
+          toggleEntryWindow={this.toggleEntryWindow}
+        />
+      </Wrapper>
+    )
+  }
+
   getDay() {
     const dayIndex = new Date().getDay()
     return this.daysArray[dayIndex]
+  }
+
+  renderAnyTags(type, typeName) {
+    return type.map(item => (
+      <EntryTag
+        text={item.text}
+        selected={item.selected}
+        onClick={() => this.selectClickedTag(item.id, type, typeName)}
+        key={item.id}
+      />
+    ))
+  }
+
+  renderAmount = () => {
+    const selectedTask = this.state.tasks.find(task => task.selected === true)
+    if (selectedTask == null) {
+      return null
+    } else {
+      if (selectedTask.amount === true)
+        return (
+          <React.Fragment>
+            <Separator text="Amount" />
+            {this.renderAnyTags(this.state.amount, 'amount')}
+          </React.Fragment>
+        )
+    }
+  }
+
+  renderEnergy = () => {
+    const selectedTask = this.state.tasks.find(task => task.selected === true)
+    if (selectedTask == null) {
+      return null
+    } else {
+      if (selectedTask.energy === true)
+        return (
+          <React.Fragment>
+            <Separator text="Energy" />
+            {this.renderAnyTags(this.state.energy, 'energy')}
+          </React.Fragment>
+        )
+    }
+  }
+
+  renderMood = () => {
+    const selectedTask = this.state.tasks.find(task => task.selected === true)
+    if (selectedTask == null) {
+      return null
+    } else {
+      if (selectedTask.mood === true)
+        return (
+          <React.Fragment>
+            <Separator text="Mood" />
+            {this.renderAnyTags(this.state.mood, 'mood')}
+          </React.Fragment>
+        )
+    }
+  }
+
+  renderTasks = () => {
+    return this.renderAnyTags(this.state.tasks, 'tasks')
+  }
+
+  handleSubmit = () => {
+    const task = this.state.tasks.find(item => item.selected === true)
+    const amount = this.state.amount.find(item => item.selected === true)
+    const energy = this.state.energy.find(item => item.selected === true)
+    const mood = this.state.mood.find(item => item.selected === true)
+
+    const entry = { task: task, amount: amount, energy: energy, mood: mood }
+
+    this.toggleEntryWindow()
+    this.addJournalText(entry)
   }
 
   toggleEntryWindow = () => {
@@ -142,100 +235,9 @@ export default class App extends Component {
     }
   }
 
-  stateUpdateSelector(typeName, newArray) {
-    if (typeName === 'tasks')
-      this.setState({
-        tasks: newArray
-      })
-    else if (typeName === 'amount')
-      this.setState({
-        amount: newArray
-      })
-    else if (typeName === 'energy')
-      this.setState({
-        energy: newArray
-      })
-    else
-      this.setState({
-        mood: newArray
-      })
-  }
-
-  handleSubmit = () => {
-    const task = this.state.tasks.find(item => item.selected === true)
-    const amount = this.state.amount.find(item => item.selected === true)
-    const energy = this.state.energy.find(item => item.selected === true)
-    const mood = this.state.mood.find(item => item.selected === true)
-
-    const entry = { task: task, amount: amount, energy: energy, mood: mood }
-
-    this.toggleEntryWindow()
-    this.addJournalText(entry)
-  }
-
   renderJournalTexts = () => {
     return this.state.entryTexts.map((text, index) => (
       <ListItem key={index}>{text}</ListItem>
-    ))
-  }
-
-  renderTasks = () => {
-    return this.renderTags(this.state.tasks, 'tasks')
-  }
-
-  renderAmount = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.amount === true)
-        return (
-          <React.Fragment>
-            <Separator text="Amount" />
-            {this.renderTags(this.state.amount, 'amount')}
-          </React.Fragment>
-        )
-    }
-  }
-
-  renderEnergy = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.energy === true)
-        return (
-          <React.Fragment>
-            <Separator text="Energy" />
-            {this.renderTags(this.state.energy, 'energy')}
-          </React.Fragment>
-        )
-    }
-  }
-
-  renderMood = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.mood === true)
-        return (
-          <React.Fragment>
-            <Separator text="Mood" />
-            {this.renderTags(this.state.mood, 'mood')}
-          </React.Fragment>
-        )
-    }
-  }
-
-  renderTags(type, typeName) {
-    return type.map(item => (
-      <EntryTag
-        text={item.text}
-        selected={item.selected}
-        onClick={() => this.selectClickedTag(item.id, type, typeName)}
-        key={item.id}
-      />
     ))
   }
 
@@ -263,24 +265,22 @@ export default class App extends Component {
     this.stateUpdateSelector(typeName, newArray)
   }
 
-  render() {
-    return (
-      <Wrapper>
-        <JournalCard
-          day={this.getDay()}
-          date={new Date()}
-          data={this.props.state}
-          renderJournalTexts={this.renderJournalTexts()}
-          toggleEntryWindow={this.toggleEntryWindow}
-          handleSubmit={this.handleSubmit}
-          renderAmount={this.renderAmount()}
-          renderEnergy={this.renderEnergy()}
-          renderMood={this.renderMood()}
-          renderTasks={this.renderTasks()}
-          addingEntry={this.state.addingEntry}
-          editEntry={this.state.editEntry}
-        />
-      </Wrapper>
-    )
+  stateUpdateSelector(typeName, newArray) {
+    if (typeName === 'tasks')
+      this.setState({
+        tasks: newArray
+      })
+    else if (typeName === 'amount')
+      this.setState({
+        amount: newArray
+      })
+    else if (typeName === 'energy')
+      this.setState({
+        energy: newArray
+      })
+    else
+      this.setState({
+        mood: newArray
+      })
   }
 }

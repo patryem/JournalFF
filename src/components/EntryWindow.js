@@ -31,10 +31,10 @@ export default class EntryWindow extends Component {
     } = this.props
     return (
       <Wrapper data-cy="EntryWindow">
-        {renderTasks}
-        {renderAmount}
-        {renderEnergy}
-        {renderMood}
+        {renderTasks()}
+        {renderAmount()}
+        {renderEnergy()}
+        {renderMood()}
         <Button text="Submit" onClick={onClick} />
       </Wrapper>
     )

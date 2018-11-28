@@ -64,7 +64,7 @@ export default class JournalCard extends Component {
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
         </Header>
-        <ul>{renderJournalTexts}</ul>
+        <ul>{renderJournalTexts()}</ul>
         {addingEntry ? (
           <EntryWindow
             onClick={handleSubmit}

@@ -33,12 +33,6 @@ const Header = styled.h1`
   color: #333;
 `
 
-const ListItem = styled.li`
-  grid-column: 1 / -1;
-  font-size: 18px;
-  color: rgb(0, 15, 85);
-`
-
 export default class JournalCard extends Component {
   static propTypes = {
     day: PropTypes.string,
@@ -49,78 +43,34 @@ export default class JournalCard extends Component {
     day: 'Today'
   }
 
-  state = {
-    addingEntry: false,
-    entryTexts: [
-      {
-        text:
-          'I was working a bit. The sensation i felt could be described as an energizing process of true happyfication.',
-        task: 'work',
-        energy: 'energized',
-        mood: 'happy'
-      }
-    ]
-  }
-
-  handleSubmit = entry => {
-    this.toggleEntryWindow()
-    if (entry.task != null) this.addJournalText(entry)
-  }
-
-  toggleEntryWindow = () => {
-    this.setState({
-      addingEntry: !this.state.addingEntry
-    })
-  }
-
-  addJournalText = entry => {
-    let newEntryText = `I did `
-
-    if (entry.amount != null) {
-      newEntryText = newEntryText + entry.amount.text
-    }
-
-    newEntryText = newEntryText + ` ` + entry.task.text + `ing `
-
-    if (entry.mood != null && entry.energy != null) {
-      newEntryText =
-        newEntryText +
-        `and feel ` +
-        entry.mood.text +
-        ` and ` +
-        entry.energy.text
-    } else if (entry.mood != null) {
-      newEntryText = newEntryText + `and feel ` + entry.mood.text
-    } else if (entry.energy != null) {
-      newEntryText = newEntryText + `and feel ` + entry.energy.text
-    }
-
-    this.setState({
-      entryTexts: [...this.state.entryTexts, { text: newEntryText, ...entry }]
-    })
-  }
-
-  renderJournalTexts() {
-    return this.state.entryTexts.map((text, index) => (
-      <ListItem key={index}>{text.text}</ListItem>
-    ))
-  }
-
   render() {
-    const { day, date } = this.props
+    const {
+      day,
+      date,
+      data,
+      renderJournalTexts,
+      toggleEntryWindow,
+      handleSubmit,
+      handleRenderTags,
+      getEntry
+    } = this.props
     return (
       <Wrapper data-cy="JournalCard">
         <Header data-cy="Date">
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
         </Header>
-        <ul>{this.renderJournalTexts()}</ul>
+        <ul>{renderJournalTexts()}</ul>
         {this.state.addingEntry ? (
-          <EntryWindow onClick={entry => this.handleSubmit(entry)} />
+          <EntryWindow
+            onClick={entry => handleSubmit(entry)}
+            data={data}
+            handleRenderTags={handleRenderTags}
+          />
         ) : (
           <CardNav>
-            <Button text="New Entry" onClick={this.toggleEntryWindow} />
-            <Button text="Edit" onClick={this.toggleEntryWindow} />
+            <Button text="New Entry" onClick={toggleEntryWindow} />
+            <Button text="Edit" onClick={toggleEntryWindow} />
           </CardNav>
         )}
       </Wrapper>

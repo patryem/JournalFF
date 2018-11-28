@@ -8,8 +8,5 @@
   "globals": {
     "cy": true
   },
-  "extends": ["react-app", "plugin:prettier/recommended"],
-  "parserOptions": {
-    "sourceType": "module"
-  }
+  "extends": ["react-app", "plugin:prettier/recommended"]
 }

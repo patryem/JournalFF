@@ -198,6 +198,7 @@ export default class App extends Component {
   }
 
   toggleEntryWindow = () => {
+    this.resetTags()
     this.setState({
       addingEntry: !this.state.addingEntry
     })
@@ -255,6 +256,35 @@ export default class App extends Component {
     return this.state.entryTexts.map((text, index) => (
       <ListItem key={index}>{text.text}</ListItem>
     ))
+  }
+
+  resetTags = () => {
+    const tasksReseted = this.state.tasks.map(task => {
+      task.selected = false
+      return task
+    })
+
+    const amountReseted = this.state.amount.map(amount => {
+      amount.selected = false
+      return amount
+    })
+
+    const moodReseted = this.state.mood.map(mood => {
+      mood.selected = false
+      return mood
+    })
+
+    const energyReseted = this.state.energy.map(energy => {
+      energy.selected = false
+      return energy
+    })
+
+    this.setState({
+      amount: amountReseted,
+      tasks: tasksReseted,
+      mood: moodReseted,
+      energy: energyReseted
+    })
   }
 
   selectClickedTag(id, type, typeName) {

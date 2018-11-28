@@ -164,25 +164,16 @@ export default class App extends Component {
 
   renderJournalTexts = () => {
     return this.state.entryTexts.map((text, index) => (
-      <ListItem key={index}>{text.text}</ListItem>
+      <ListItem key={index}>{text}</ListItem>
     ))
-  }
-
-  handleRenderTags = () => {
-    this.renderTasks()
-    this.renderAmount()
-    this.renderEnergy()
-    this.renderMood()
   }
 
   renderTasks = () => {
     return this.renderTags(this.state.tasks, 'tasks')
   }
 
-  renderAmount() {
-    const selectedTask = this.props.data.tasks.find(
-      task => task.selected === true
-    )
+  renderAmount = () => {
+    const selectedTask = this.state.tasks.find(task => task.selected === true)
     if (selectedTask == null) {
       return null
     } else {
@@ -190,16 +181,14 @@ export default class App extends Component {
         return (
           <React.Fragment>
             <Separator text="Amount" />
-            {this.renderTags(this.props.data.amount, 'amount')}
+            {this.renderTags(this.state.amount, 'amount')}
           </React.Fragment>
         )
     }
   }
 
-  renderEnergy() {
-    const selectedTask = this.data.find.tasks.find(
-      task => task.selected === true
-    )
+  renderEnergy = () => {
+    const selectedTask = this.state.tasks.find(task => task.selected === true)
     if (selectedTask == null) {
       return null
     } else {
@@ -213,7 +202,7 @@ export default class App extends Component {
     }
   }
 
-  renderMood() {
+  renderMood = () => {
     const selectedTask = this.state.tasks.find(task => task.selected === true)
     if (selectedTask == null) {
       return null
@@ -264,10 +253,10 @@ export default class App extends Component {
   }
 
   getEntry = () => {
-    const task = this.props.data.tasks.find(item => item.selected === true)
-    const amount = this.props.data.amount.find(item => item.selected === true)
-    const energy = this.props.data.energy.find(item => item.selected === true)
-    const mood = this.props.data.mood.find(item => item.selected === true)
+    const task = this.state.tasks.find(item => item.selected === true)
+    const amount = this.state.amount.find(item => item.selected === true)
+    const energy = this.state.energy.find(item => item.selected === true)
+    const mood = this.state.mood.find(item => item.selected === true)
 
     const entry = { task: task, amount: amount, energy: energy, mood: mood }
 
@@ -281,11 +270,16 @@ export default class App extends Component {
           day={this.getDay()}
           date={new Date()}
           data={this.props.state}
-          renderJournalTexts={() => this.renderJournalTexts()}
+          renderJournalTexts={this.renderJournalTexts()}
           toggleEntryWindow={this.toggleEntryWindow}
           handleSubmit={this.handleSubmit}
-          handleRenderTags={this.handleRenderTags}
-          getEntry={this.getEntry}
+          renderAmount={this.renderAmount()}
+          renderEnergy={this.renderEnergy()}
+          renderMood={this.renderMood()}
+          renderTasks={this.renderTasks()}
+          getEntry={() => this.getEntry()}
+          addingEntry={this.state.addingEntry}
+          editEntry={this.state.editEntry}
         />
       </Wrapper>
     )

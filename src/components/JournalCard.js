@@ -51,8 +51,13 @@ export default class JournalCard extends Component {
       renderJournalTexts,
       toggleEntryWindow,
       handleSubmit,
-      handleRenderTags,
-      getEntry
+      renderAmount,
+      renderEnergy,
+      renderMood,
+      renderTasks,
+      getEntry,
+      addingEntry,
+      editEntry
     } = this.props
     return (
       <Wrapper data-cy="JournalCard">
@@ -60,12 +65,16 @@ export default class JournalCard extends Component {
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
         </Header>
-        <ul>{renderJournalTexts()}</ul>
-        {this.state.addingEntry ? (
+        <ul>{renderJournalTexts}</ul>
+        {addingEntry ? (
           <EntryWindow
             onClick={entry => handleSubmit(entry)}
             data={data}
-            handleRenderTags={handleRenderTags}
+            renderAmount={renderAmount}
+            renderEnergy={renderEnergy}
+            renderMood={renderMood}
+            renderTasks={renderTasks}
+            getEntry={getEntry}
           />
         ) : (
           <CardNav>

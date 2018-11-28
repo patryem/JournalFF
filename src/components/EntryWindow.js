@@ -22,11 +22,21 @@ export default class EntryWindow extends Component {
   }
 
   render() {
-    const { onClick, handleRenderTags } = this.props
+    const {
+      onClick,
+      renderAmount,
+      renderEnergy,
+      renderMood,
+      renderTasks,
+      getEntry
+    } = this.props
     return (
       <Wrapper data-cy="EntryWindow">
-        {handleRenderTags()}
-        <Button text="Submit" onClick={() => onClick(this.getEntry())} />
+        {renderTasks}
+        {renderAmount}
+        {renderEnergy}
+        {renderMood}
+        <Button text="Submit" onClick={() => onClick(getEntry())} />
       </Wrapper>
     )
   }

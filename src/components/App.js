@@ -22,8 +22,7 @@ export default class App extends Component {
   state = {
     addingEntry: false,
     editEntry: false,
-    entryTexts: ['hi friends'],
-    entryTextsNew: [
+    entryTexts: [
       {
         text:
           'I was working a bit. The sensation i felt could be described as an energizing process of true happyfication.',
@@ -204,6 +203,19 @@ export default class App extends Component {
     })
   }
 
+  createTextConfig(entry) {
+    let textConfig
+    if (entry.amount != null)
+      textConfig = { ...textConfig, amount: entry.amount.text }
+    if (entry.energy != null)
+      textConfig = { ...textConfig, energy: entry.energy.text }
+    if (entry.mood != null)
+      textConfig = { ...textConfig, mood: entry.mood.text }
+    if (entry.task != null)
+      textConfig = { ...textConfig, task: entry.task.text }
+    return textConfig
+  }
+
   addJournalText = entry => {
     if (entry.task != null) {
       let newEntryText = `I did `
@@ -227,17 +239,21 @@ export default class App extends Component {
         newEntryText = newEntryText + `and feel ` + entry.energy.text
       }
 
-      console.log(newEntryText)
+      console.log(this.createTextConfig(entry))
+      const textConfig = this.createTextConfig(entry)
 
       this.setState({
-        entryTexts: [...this.state.entryTexts, newEntryText]
+        entryTexts: [
+          ...this.state.entryTexts,
+          { text: newEntryText, textConfig }
+        ]
       })
     }
   }
 
   renderJournalTexts = () => {
     return this.state.entryTexts.map((text, index) => (
-      <ListItem key={index}>{text}</ListItem>
+      <ListItem key={index}>{text.text}</ListItem>
     ))
   }
 

@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const ButtonEl = styled.button`
-  background: #750000;
+  background: #${props => props.background || 750000};
   border: none;
   border-radius: 4px;
-  padding: 8px;
+  padding: ${props => props.fontSize / 2 - 4}px;
   box-shadow: 0 2px 4px rgba(10, 10, 13, 0.12), 0 1px 2px rgba(10, 10, 13, 0.8);
   color: #eee;
-  font-size: 20px;
+  font-size: ${props => props.fontSize || 12}px;
 `
 
 export default class Button extends Component {
@@ -19,9 +19,14 @@ export default class Button extends Component {
   }
 
   render() {
-    const { text, onClick } = this.props
+    const { text, onClick, fontSize, background } = this.props
     return (
-      <ButtonEl data-cy="Button" onClick={onClick}>
+      <ButtonEl
+        data-cy="Button"
+        onClick={onClick}
+        fontSize={fontSize}
+        background={background}
+      >
         {text}
       </ButtonEl>
     )

@@ -56,8 +56,8 @@ export default class JournalCard extends Component {
       renderMood,
       renderTasks,
       addingEntry,
-      loadAllTags,
-      editEntry
+      editEntry,
+      replaceEntry
     } = this.props
     return (
       <Wrapper data-cy="JournalCard">
@@ -74,11 +74,16 @@ export default class JournalCard extends Component {
             renderEnergy={renderEnergy}
             renderMood={renderMood}
             renderTasks={renderTasks}
+            editEntry={editEntry}
+            replaceEntry={replaceEntry}
           />
         ) : (
           <CardNav>
-            <Button text="New Entry" onClick={toggleEntryWindow} />
-            <Button text="Edit" onClick={loadAllTags} />
+            <Button
+              text="New Entry"
+              onClick={toggleEntryWindow}
+              fontSize={20}
+            />
           </CardNav>
         )}
       </Wrapper>

@@ -45,18 +45,19 @@ export default class JournalCard extends Component {
 
   render() {
     const {
+      addingEntry,
+      editEntry,
       day,
       date,
       data,
-      renderJournalTexts,
-      toggleEntryWindow,
       handleSubmit,
+      toggleEntryWindow,
+      renderJournalTexts,
       renderAmount,
       renderEnergy,
       renderMood,
       renderTasks,
-      addingEntry,
-      editEntry,
+
       replaceEntry
     } = this.props
     return (

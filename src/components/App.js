@@ -122,7 +122,6 @@ export default class App extends Component {
           renderMood={this.renderMood}
           renderTasks={this.renderTasks}
           toggleEntryWindow={this.toggleEntryWindow}
-          loadAllTags={this.loadAllTags}
           replaceEntry={() => this.replaceEntry(this.state.editIndex)}
         />
       </Wrapper>
@@ -287,11 +286,10 @@ export default class App extends Component {
 
   replaceEntry = index => {
     this.handleSubmit(index)
-    this.loadAllTags(index)
   }
 
   prepareEdit(index) {
-    this.toggleEntryWindow()
+    this.loadAllTags(index)
     this.setState({
       editEntry: !this.state.editEntry,
       editIndex: index
@@ -328,6 +326,7 @@ export default class App extends Component {
   }
 
   loadAllTags = index => {
+    this.toggleEntryWindow()
     const textConfig = this.state.entryTexts[index].textConfig
 
     this.loadSelectedTags(this.state.tasks, 'tasks', textConfig.task)

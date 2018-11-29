@@ -41,6 +41,7 @@ export default class EntryWindow extends Component {
           text="Submit"
           onClick={editEntry ? (onClick, replaceEntry) : onClick}
           fontSize={20}
+          height={35}
         />
       </Wrapper>
     )

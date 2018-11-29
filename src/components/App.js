@@ -19,6 +19,13 @@ const ListItem = styled.li`
   color: rgb(0, 15, 85);
 `
 
+const ListContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+`
+
 export default class App extends Component {
   state = {
     addingEntry: false,
@@ -266,15 +273,15 @@ export default class App extends Component {
 
   renderJournalTexts = () => {
     return this.state.entryTexts.map((text, index) => (
-      <ListItem key={index}>
-        {text.text}
+      <ListContainer>
+        <ListItem key={index}>{text.text}</ListItem>
         <Button
           text="Edit"
           onClick={() => this.prepareEdit(index)}
           fontSize={12}
           background="7aa8bf"
         />
-      </ListItem>
+      </ListContainer>
     ))
   }
 

@@ -83,6 +83,7 @@ export default class JournalCard extends Component {
               text="New Entry"
               onClick={toggleEntryWindow}
               fontSize={20}
+              height={35}
             />
           </CardNav>
         )}

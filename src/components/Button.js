@@ -10,6 +10,7 @@ const ButtonEl = styled.button`
   box-shadow: 0 2px 4px rgba(10, 10, 13, 0.12), 0 1px 2px rgba(10, 10, 13, 0.8);
   color: #eee;
   font-size: ${props => props.fontSize || 12}px;
+  height: ${props => props.height || 20}px;
 `
 
 export default class Button extends Component {
@@ -19,13 +20,14 @@ export default class Button extends Component {
   }
 
   render() {
-    const { text, onClick, fontSize, background } = this.props
+    const { text, onClick, fontSize, background, height } = this.props
     return (
       <ButtonEl
         data-cy="Button"
         onClick={onClick}
         fontSize={fontSize}
         background={background}
+        height={height}
       >
         {text}
       </ButtonEl>

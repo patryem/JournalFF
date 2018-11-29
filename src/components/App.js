@@ -253,27 +253,27 @@ export default class App extends Component {
 
       const textConfig = this.createTextConfig(entry)
 
-      if (index == null)
-        this.setState({
-          entryTexts: [
-            ...this.state.entryTexts,
-            { text: newEntryText, textConfig }
-          ]
-        })
-      else
-        this.setState({
-          entryTexts: [
-            ...this.state.entryTexts.slice(0, index),
-            { text: newEntryText, textConfig },
-            ...this.state.entryTexts.slice(index + 1)
-          ]
-        })
+      this.state.editEntry
+        ? this.setState({
+            entryTexts: [
+              ...this.state.entryTexts.slice(0, index),
+              { text: newEntryText, textConfig },
+              ...this.state.entryTexts.slice(index + 1)
+            ],
+            editEntry: !this.state.editEntry
+          })
+        : this.setState({
+            entryTexts: [
+              ...this.state.entryTexts,
+              { text: newEntryText, textConfig }
+            ]
+          })
     }
   }
 
   renderJournalTexts = () => {
     return this.state.entryTexts.map((text, index) => (
-      <ListContainer>
+      <ListContainer key={index}>
         <ListItem key={index}>{text.text}</ListItem>
         <Button
           text="Edit"
@@ -287,9 +287,6 @@ export default class App extends Component {
 
   replaceEntry = index => {
     this.handleSubmit(index)
-    this.setState({
-      editEntry: !this.state.editEntry
-    })
     this.loadAllTags(index)
   }
 

@@ -17,6 +17,7 @@ const ListItem = styled.li`
   grid-column: 1 / -1;
   font-size: 18px;
   color: rgb(0, 15, 85);
+  padding-right: 10px;
 `
 
 const ListContainer = styled.div`
@@ -33,9 +34,8 @@ export default class App extends Component {
     editIndex: 0,
     entryTexts: [
       {
-        text:
-          'I was working a bit. The sensation i felt could be described as an energizing process of true happyfication.',
-        textConfig: { task: 'work', energy: 'energized', mood: 'happy' }
+        text: 'Edit this Entry!',
+        textConfig: {}
       }
     ],
     tasks: [
@@ -237,7 +237,7 @@ export default class App extends Component {
 
       newEntryText = newEntryText + ` ` + entry.task.text + `ing `
 
-      if (entry.mood != null && entry.energy != null) {
+      if (entry.mood && entry.energy != null) {
         newEntryText =
           newEntryText +
           `and feel ` +
@@ -329,19 +329,17 @@ export default class App extends Component {
     this.toggleEntryWindow()
     const textConfig = this.state.entryTexts[index].textConfig
 
-    this.loadSelectedTags(this.state.tasks, 'tasks', textConfig.task)
+    textConfig.task &&
+      this.loadSelectedTags(this.state.tasks, 'tasks', textConfig.task)
 
-    if (textConfig.amount != null) {
+    textConfig.amount &&
       this.loadSelectedTags(this.state.amount, 'amount', textConfig.amount)
-    }
 
-    if (textConfig.energy != null) {
+    textConfig.energy &&
       this.loadSelectedTags(this.state.energy, 'energy', textConfig.energy)
-    }
 
-    if (textConfig.mood != null) {
+    textConfig.mood &&
       this.loadSelectedTags(this.state.mood, 'mood', textConfig.mood)
-    }
   }
 
   loadSelectedTags = (type, typeName, value) => {
@@ -355,8 +353,8 @@ export default class App extends Component {
   }
 
   selectClickedTag = (id, type, typeName) => {
-    const indexNew = type.findIndex(task => task.id === id)
-    const indexOld = type.findIndex(task => task.selected === true)
+    const indexNew = type.findIndex(item => item.id === id)
+    const indexOld = type.findIndex(item => item.selected === true)
     let newArray
 
     if (indexOld >= 0) {

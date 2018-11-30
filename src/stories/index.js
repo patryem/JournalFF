@@ -6,7 +6,6 @@ import { text, select, date, boolean } from '@storybook/addon-knobs'
 
 import JournalCard from '../components/JournalCard'
 import Button from '../components/Button'
-import EntryWindow from '../components/EntryWindow'
 import EntryTag from '../components/EntryTag'
 import Separator from '../components/Separator'
 import Input from '../components/Input'
@@ -42,8 +41,6 @@ storiesOf('EntryTag', module).add('Entrytag', () => (
   </React.Fragment>
 ))
 
-storiesOf('EntryWindow', module).add('Plain Window', () => <EntryWindow />)
-
 storiesOf('Input', module).add('Default Input', () => (
   <Input name="task-input" labelText={text('Label for Input: ', 'Task: ')} />
 ))
@@ -64,6 +61,7 @@ storiesOf('JournalCard', module).add('JournalCard', () => (
       'Monday'
     )}
     date={dateKnob('Datum', new Date('2010-08-17'))}
+    renderJournalTexts={action('Render text')}
   />
 ))
 

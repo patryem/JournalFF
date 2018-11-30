@@ -1,12 +1,8 @@
 {
-  "ecmaFeatures": {
-    "modules": true,
-    "spread": true,
-    "restParams": true
-  },
   "env": { "es6": true },
   "globals": {
-    "cy": true
+    "cy": true,
+    "context": true
   },
-  "extends": ["react-app", "plugin:prettier/recommended"]
+  "extends": ["react-app"]
 }

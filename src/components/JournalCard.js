@@ -7,8 +7,8 @@ import Button from './Button'
 
 const Wrapper = styled.section`
   width: 90vw;
-  min-height: 80vh;
-  background: #efefef;
+  height: 80vh;
+  background: #fefefe;
   box-sizing: border-box;
   display: grid;
   grid-template-rows: 50px auto;
@@ -18,7 +18,7 @@ const CardNav = styled.section`
   box-sizing: border-box;
   height: 100px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;
   padding: 30px;
 `
 
@@ -79,6 +79,12 @@ export default class JournalCard extends Component {
           <CardNav>
             <Button
               text="New Entry"
+              onClick={toggleEntryWindow}
+              fontSize={20}
+              height={35}
+            />
+            <Button
+              text="New Task"
               onClick={toggleEntryWindow}
               fontSize={20}
               height={35}

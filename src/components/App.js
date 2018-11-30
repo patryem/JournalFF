@@ -8,6 +8,8 @@ import Separator from './Separator'
 import Button from './Button'
 
 const Wrapper = styled.section`
+  height: 100vh;
+  background: #efefef;
   display: flex;
   justify-content: center;
   box-sizing: border-box;

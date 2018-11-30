@@ -7,7 +7,13 @@ const Tag = styled.div`
   border-radius: 5px;
   color: #333;
   max-width: 100px;
-  text-align: center;
+  min-width: 50px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+  align-self: center;
   font-size: 20px;
   &.selected {
     background: #deffff;

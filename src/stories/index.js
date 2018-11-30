@@ -9,6 +9,7 @@ import Button from '../components/Button'
 import EntryWindow from '../components/EntryWindow'
 import EntryTag from '../components/EntryTag'
 import Separator from '../components/Separator'
+import Input from '../components/Input'
 
 import StyleBox from './StyleBox'
 
@@ -42,6 +43,10 @@ storiesOf('EntryTag', module).add('Entrytag', () => (
 ))
 
 storiesOf('EntryWindow', module).add('Plain Window', () => <EntryWindow />)
+
+storiesOf('Input', module).add('Default Input', () => (
+  <Input name="task-input" labelText={text('Label for Input: ', 'Task: ')} />
+))
 
 storiesOf('JournalCard', module).add('JournalCard', () => (
   <JournalCard

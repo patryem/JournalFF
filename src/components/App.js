@@ -367,11 +367,12 @@ export default class App extends Component {
       newArray = type
     }
 
-    newArray = [
-      ...newArray.slice(0, indexNew),
-      { ...newArray[indexNew], selected: true },
-      ...newArray.slice(indexNew + 1)
-    ]
+    if (indexOld != indexNew)
+      newArray = [
+        ...newArray.slice(0, indexNew),
+        { ...newArray[indexNew], selected: true },
+        ...newArray.slice(indexNew + 1)
+      ]
 
     this.stateUpdateSelector(typeName, newArray)
   }

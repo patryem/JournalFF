@@ -49,7 +49,6 @@ export default class JournalCard extends Component {
       editEntry,
       day,
       date,
-      data,
       handleSubmit,
       toggleEntryWindow,
       renderJournalTexts,

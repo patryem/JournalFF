@@ -114,7 +114,6 @@ export default class App extends Component {
           editEntry={this.state.editEntry}
           day={this.getDay()}
           date={new Date()}
-          data={this.props.state}
           handleSubmit={this.handleSubmit}
           renderJournalTexts={this.renderJournalTexts}
           renderAmount={this.renderAmount}
@@ -199,7 +198,7 @@ export default class App extends Component {
     const energy = this.state.energy.find(item => item.selected === true)
     const mood = this.state.mood.find(item => item.selected === true)
 
-    const entry = { task: task, amount: amount, energy: energy, mood: mood }
+    const entry = { task, amount, energy, mood }
 
     this.toggleEntryWindow()
 
@@ -367,7 +366,7 @@ export default class App extends Component {
       newArray = type
     }
 
-    if (indexOld != indexNew)
+    if (indexOld !== indexNew)
       newArray = [
         ...newArray.slice(0, indexNew),
         { ...newArray[indexNew], selected: true },

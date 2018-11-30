@@ -57,7 +57,6 @@ export default class JournalCard extends Component {
       renderEnergy,
       renderMood,
       renderTasks,
-
       replaceEntry
     } = this.props
     return (
@@ -70,7 +69,6 @@ export default class JournalCard extends Component {
         {addingEntry ? (
           <EntryWindow
             onClick={handleSubmit}
-            data={data}
             renderAmount={renderAmount}
             renderEnergy={renderEnergy}
             renderMood={renderMood}

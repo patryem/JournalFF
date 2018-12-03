@@ -6,7 +6,7 @@ export default class Checkbox extends Component {
 
     return (
       <React.Fragment>
-        <label htmlFor={name}>
+        <label htmlFor={name} data-cy="Checkbox">
           {label + ' '}
           <input
             type="checkbox"

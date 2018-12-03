@@ -138,13 +138,13 @@ export default class EntryWindow extends Component {
   }
 
   handleEntry = () => {
-    this.state.text && this.props.submitNewTask(this.state)
-
-    this.setState({
-      text: '',
-      amount: '',
-      energy: '',
-      mood: ''
-    })
+    this.state.text &&
+      this.props.submitNewTask(this.state) &&
+      this.setState({
+        text: '',
+        amount: '',
+        energy: '',
+        mood: ''
+      })
   }
 }

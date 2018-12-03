@@ -15,6 +15,7 @@ export default class Input extends Component {
         <label htmlFor={name}>
           {labelText}
           <StyledInput
+            data-cy="Input"
             id={name}
             name={name}
             placeholder="type in a new task"

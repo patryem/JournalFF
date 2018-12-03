@@ -31,7 +31,7 @@ const ListContainer = styled.div`
 
 export default class App extends Component {
   state = {
-    addingEntry: false,
+    openEntryWindow: false,
     editEntry: false,
     createNewTask: false,
     editIndex: 0,
@@ -113,7 +113,7 @@ export default class App extends Component {
     return (
       <Wrapper>
         <JournalCard
-          addingEntry={this.state.addingEntry}
+          openEntryWindow={this.state.openEntryWindow}
           editEntry={this.state.editEntry}
           createNewTask={this.state.createNewTask}
           day={this.getDay()}
@@ -215,7 +215,7 @@ export default class App extends Component {
   toggleEntryWindow = () => {
     this.resetTags()
     this.setState({
-      addingEntry: !this.state.addingEntry
+      openEntryWindow: !this.state.openEntryWindow
     })
   }
 
@@ -295,7 +295,7 @@ export default class App extends Component {
 
   submitNewTask = rawTask => {
     this.toggleEntryWindow()
-    console.log(this.state.tasks.find(task => task.text === rawTask.text))
+    console.log(this.state.tasks.findIndex(task => task.text === rawTask.text))
     const newTasks = [
       ...this.state.tasks,
       { ...rawTask, selected: false, id: uid() }
@@ -316,10 +316,10 @@ export default class App extends Component {
   }
 
   toggleCreateNewTaskWindow = () => {
+    this.toggleEntryWindow()
     this.setState({
       createNewTask: !this.state.createNewTask
     })
-    this.toggleEntryWindow()
   }
 
   resetTags() {

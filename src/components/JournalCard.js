@@ -50,7 +50,7 @@ export default class JournalCard extends Component {
 
   render() {
     const {
-      addingEntry,
+      openEntryWindow,
       createNewTask,
       editEntry,
       day,
@@ -73,7 +73,7 @@ export default class JournalCard extends Component {
           <span>{date.toLocaleDateString('de')}</span>
         </Header>
         <ul>{renderJournalTexts()}</ul>
-        {addingEntry ? (
+        {openEntryWindow ? (
           <EntryWindow
             createNewTask={createNewTask}
             onClick={handleSubmit}

@@ -53,6 +53,7 @@ export default class JournalCard extends Component {
       openEntryWindow,
       createNewTask,
       editEntry,
+      errorMessage,
       day,
       date,
       handleSubmit,
@@ -84,6 +85,7 @@ export default class JournalCard extends Component {
             editEntry={editEntry}
             replaceEntry={replaceEntry}
             submitNewTask={submitNewTask}
+            errorMessage={errorMessage}
           />
         ) : (
           <CardNav>

@@ -31,6 +31,7 @@ const ListContainer = styled.div`
 
 export default class App extends Component {
   state = {
+    errorMessage: '',
     openEntryWindow: false,
     editEntry: false,
     createNewTask: false,
@@ -115,6 +116,7 @@ export default class App extends Component {
         <JournalCard
           openEntryWindow={this.state.openEntryWindow}
           editEntry={this.state.editEntry}
+          errorMessage={this.state.errorMessage}
           createNewTask={this.state.createNewTask}
           day={this.getDay()}
           date={new Date()}
@@ -294,17 +296,23 @@ export default class App extends Component {
   }
 
   submitNewTask = rawTask => {
-    this.toggleEntryWindow()
-    console.log(this.state.tasks.findIndex(task => task.text === rawTask.text))
-    const newTasks = [
-      ...this.state.tasks,
-      { ...rawTask, selected: false, id: uid() }
-    ]
+    if (this.state.tasks.findIndex(task => task.text === rawTask.text) !== -1)
+      this.setState({
+        errorMessage: 'Bereits vergeben'
+      })
+    else {
+      this.toggleEntryWindow()
+      const newTasks = [
+        ...this.state.tasks,
+        { ...rawTask, selected: false, id: uid() }
+      ]
 
-    this.setState({
-      tasks: newTasks,
-      createNewTask: !this.state.createNewTask
-    })
+      this.setState({
+        tasks: newTasks,
+        createNewTask: !this.state.createNewTask,
+        errorMessage: ''
+      })
+    }
   }
 
   prepareEdit(index) {

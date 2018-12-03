@@ -14,7 +14,7 @@ const Wrapper = styled.section`
   padding: 10px;
   box-sizing: border-box;
   display: grid;
-  grid-auto-rows: 40px;
+  grid-auto-rows: auto;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;
   bottom: 30px;
@@ -26,6 +26,14 @@ const Wrapper = styled.section`
     grid-template-columns: auto;
     grid-gap: 5px;
     justify-content: center;
+  }
+  .alert {
+    display: flex;
+    justify-content: center;
+    color: white;
+    background: #ab3a2a;
+    font-size: 20px;
+    border-radius: 0 0 7px 7px;
   }
   button {
     grid-column: 1 / -1;
@@ -51,6 +59,7 @@ export default class EntryWindow extends Component {
     const {
       createNewTask,
       editEntry,
+      errorMessage,
       onClick,
       renderAmount,
       renderEnergy,
@@ -60,12 +69,15 @@ export default class EntryWindow extends Component {
     } = this.props
     return createNewTask ? (
       <Wrapper data-cy="EntryWindow" className="newTask">
-        <Input
-          name={'newTask'}
-          labelText={'New Task: '}
-          onChange={this.handleChange}
-          required
-        />
+        <div>
+          <Input
+            name={'newTask'}
+            labelText={'New Task: '}
+            onChange={this.handleChange}
+            required
+          />
+          <div className="alert">{errorMessage}</div>
+        </div>
         <Checkbox
           checked={this.state.amount}
           name={'amount'}

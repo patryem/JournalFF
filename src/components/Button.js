@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const ButtonEl = styled.button`
-  background: #${props => props.background || 750000};
+  background: #${props => props.background || '0069c0'};
   border: none;
   border-radius: 4px;
   padding: ${props => props.fontSize / 2 - 4}px;

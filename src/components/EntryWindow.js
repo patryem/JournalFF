@@ -8,6 +8,7 @@ import Checkbox from './Checkbox'
 
 const Wrapper = styled.section`
   width: 85vw;
+  min-height: 200px;
   background: #fefefe;
   box-shadow: 0 0 10px 0 #ccc;
   justify-self: center;
@@ -20,8 +21,6 @@ const Wrapper = styled.section`
   bottom: 30px;
   position: absolute;
   bottom: 30px;
-  min-height: 200px;
-  transition: height 3s ease;
   &.newTask {
     grid-template-columns: auto;
     grid-gap: 5px;
@@ -74,7 +73,6 @@ export default class EntryWindow extends Component {
             name={'newTask'}
             labelText={'New Task: '}
             onChange={this.handleChange}
-            required
           />
           <div className="alert">{errorMessage}</div>
         </div>

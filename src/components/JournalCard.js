@@ -10,8 +10,11 @@ const Wrapper = styled.section`
   height: 80vh;
   background: #fefefe;
   box-sizing: border-box;
+  border-radius: 5px;
   display: grid;
   grid-template-rows: 50px auto;
+  position: absolute;
+  top: 10vh;
 `
 
 const CardNav = styled.section`
@@ -28,6 +31,8 @@ const Header = styled.h1`
   justify-content: space-around;
   margin: 0;
   padding: 10px;
+  border-radius: 5px 5px 0 0;
+  box-shadow: 0 6px 12px rgba(10, 10, 13, 0.12);
   font-size: 24px;
   background: #abdaf2;
   color: #333;
@@ -46,17 +51,20 @@ export default class JournalCard extends Component {
   render() {
     const {
       addingEntry,
+      createNewTask,
       editEntry,
       day,
       date,
       handleSubmit,
-      toggleEntryWindow,
       renderJournalTexts,
       renderAmount,
       renderEnergy,
       renderMood,
       renderTasks,
-      replaceEntry
+      replaceEntry,
+      submitNewTask,
+      toggleCreateNewTaskWindow,
+      toggleEntryWindow
     } = this.props
     return (
       <Wrapper data-cy="JournalCard">
@@ -67,6 +75,7 @@ export default class JournalCard extends Component {
         <ul>{renderJournalTexts()}</ul>
         {addingEntry ? (
           <EntryWindow
+            createNewTask={createNewTask}
             onClick={handleSubmit}
             renderAmount={renderAmount}
             renderEnergy={renderEnergy}
@@ -74,6 +83,7 @@ export default class JournalCard extends Component {
             renderTasks={renderTasks}
             editEntry={editEntry}
             replaceEntry={replaceEntry}
+            submitNewTask={submitNewTask}
           />
         ) : (
           <CardNav>
@@ -85,7 +95,7 @@ export default class JournalCard extends Component {
             />
             <Button
               text="New Task"
-              onClick={toggleEntryWindow}
+              onClick={toggleCreateNewTaskWindow}
               fontSize={20}
               height={35}
             />

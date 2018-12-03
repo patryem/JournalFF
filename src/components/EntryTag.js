@@ -15,6 +15,7 @@ const Tag = styled.div`
   justify-self: center;
   align-self: center;
   font-size: 20px;
+  box-shadow: 0 6px 12px rgba(10, 10, 13, 0.12);
   &.selected {
     background: #deffff;
   }

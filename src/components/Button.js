@@ -7,7 +7,7 @@ const ButtonEl = styled.button`
   border: none;
   border-radius: 4px;
   padding: ${props => props.fontSize / 2 - 4}px;
-  box-shadow: 0 2px 4px rgba(10, 10, 13, 0.12), 0 1px 2px rgba(10, 10, 13, 0.8);
+  box-shadow: 0 6px 12px rgba(10, 10, 13, 0.12), 0 2px 4px rgba(10, 10, 13, 0.2);
   color: #eee;
   font-size: ${props => props.fontSize || 12}px;
   height: ${props => props.height || 20}px;

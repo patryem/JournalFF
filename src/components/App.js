@@ -33,6 +33,7 @@ export default class App extends Component {
   state = {
     addingEntry: false,
     editEntry: false,
+    createNewTask: false,
     editIndex: 0,
     entryTexts: [
       {
@@ -114,6 +115,7 @@ export default class App extends Component {
         <JournalCard
           addingEntry={this.state.addingEntry}
           editEntry={this.state.editEntry}
+          createNewTask={this.state.createNewTask}
           day={this.getDay()}
           date={new Date()}
           handleSubmit={this.handleSubmit}
@@ -122,8 +124,10 @@ export default class App extends Component {
           renderEnergy={this.renderEnergy}
           renderMood={this.renderMood}
           renderTasks={this.renderTasks}
-          toggleEntryWindow={this.toggleEntryWindow}
           replaceEntry={() => this.replaceEntry(this.state.editIndex)}
+          submitNewTask={this.submitNewTask}
+          toggleCreateNewTaskWindow={this.toggleCreateNewTaskWindow}
+          toggleEntryWindow={this.toggleEntryWindow}
         />
       </Wrapper>
     )
@@ -289,12 +293,33 @@ export default class App extends Component {
     this.handleSubmit(index)
   }
 
+  submitNewTask = rawTask => {
+    this.toggleEntryWindow()
+    console.log(this.state.tasks.find(task => task.text === rawTask.text))
+    const newTasks = [
+      ...this.state.tasks,
+      { ...rawTask, selected: false, id: uid() }
+    ]
+
+    this.setState({
+      tasks: newTasks,
+      createNewTask: !this.state.createNewTask
+    })
+  }
+
   prepareEdit(index) {
     this.loadAllTags(index)
     this.setState({
       editEntry: !this.state.editEntry,
       editIndex: index
     })
+  }
+
+  toggleCreateNewTaskWindow = () => {
+    this.setState({
+      createNewTask: !this.state.createNewTask
+    })
+    this.toggleEntryWindow()
   }
 
   resetTags() {

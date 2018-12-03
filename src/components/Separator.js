@@ -16,7 +16,6 @@ const Line = styled.div`
   width: 100%;
   margin: 0 10px;
   border-bottom: ${props => props.width || 1}px solid #ccc;
-  grid-column: 1 / -1;
 `
 
 export default class Separator extends Component {

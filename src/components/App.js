@@ -176,7 +176,7 @@ export default class App extends Component {
 
     this.toggleEntryWindow()
 
-    !index ? this.addJournalText(entrys) : this.addJournalText(entrys, index)
+    index < 0 ? this.addJournalText(entrys) : this.addJournalText(entrys, index)
   }
 
   toggleEntryWindow = () => {

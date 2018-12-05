@@ -47,7 +47,7 @@ export default class App extends Component {
         amount: false,
         mood: true,
         energy: true,
-        type: 'task'
+        type: 'tasks'
       },
       {
         text: 'eat',
@@ -57,7 +57,7 @@ export default class App extends Component {
         amount: true,
         mood: false,
         energy: true,
-        type: 'task'
+        type: 'tasks'
       },
       {
         text: 'sleep',
@@ -67,7 +67,7 @@ export default class App extends Component {
         amount: false,
         mood: true,
         energy: true,
-        type: 'task'
+        type: 'tasks'
       },
       {
         text: 'sport',
@@ -77,7 +77,7 @@ export default class App extends Component {
         amount: true,
         mood: true,
         energy: true,
-        type: 'task'
+        type: 'tasks'
       }
     ],
 
@@ -235,7 +235,10 @@ export default class App extends Component {
   }
 
   submitNewTask = rawTask => {
-    if (this.state.tasks.findIndex(task => task.text === rawTask.text) !== -1)
+    const indexOfExistingTask = this.state.tasks.findIndex(
+      task => task.text === rawTask.text
+    )
+    if (indexOfExistingTask !== -1)
       this.setState({
         errorMessage: 'Bereits vergeben'
       })
@@ -243,7 +246,7 @@ export default class App extends Component {
       this.toggleEntryWindow()
       const newTasks = [
         ...this.state.tasks,
-        { ...rawTask, selected: false, id: uid() }
+        { ...rawTask, selected: false, id: uid(), type: 'tasks' }
       ]
 
       this.setState({
@@ -289,27 +292,24 @@ export default class App extends Component {
     this.toggleEntryWindow()
     const textConfig = this.state.entryTexts[index].textConfig
 
-    textConfig.task &&
-      this.loadSelectedTags(this.state.tasks, 'tasks', textConfig.task)
-
-    textConfig.amount &&
-      this.loadSelectedTags(this.state.amount, 'amount', textConfig.amount)
-
-    textConfig.energy &&
-      this.loadSelectedTags(this.state.energy, 'energy', textConfig.energy)
-
-    textConfig.mood &&
-      this.loadSelectedTags(this.state.mood, 'mood', textConfig.mood)
+    textConfig.forEach(item => {
+      Object.entries(item).forEach(([key, value]) =>
+        this.loadSelectedTags(key, value)
+      )
+    })
   }
 
-  loadSelectedTags = (type, typeName, value) => {
-    const index = type.findIndex(item => item.text === value)
+  loadSelectedTags = (key, keyValue) => {
+    const index = this.state[key].findIndex(item => item.text === keyValue)
+
     const newArray = [
-      ...type.slice(0, index),
-      { ...type[index], selected: true },
-      ...type.slice(index + 1)
+      ...this.state[key].slice(0, index),
+      { ...this.state[key][index], selected: true },
+      ...this.state[key].slice(index + 1)
     ]
-    this.stateUpdateSelector(typeName, newArray)
+    this.setState({
+      [key]: newArray
+    })
   }
 
   selectClickedTag = (id, type, typeName) => {
@@ -317,15 +317,13 @@ export default class App extends Component {
     const indexOld = type.findIndex(item => item.selected === true)
     let newArray
 
-    if (indexOld >= 0) {
-      newArray = [
-        ...type.slice(0, indexOld),
-        { ...type[indexOld], selected: false },
-        ...type.slice(indexOld + 1)
-      ]
-    } else {
-      newArray = type
-    }
+    indexOld < 0
+      ? (newArray = type)
+      : (newArray = [
+          ...type.slice(0, indexOld),
+          { ...type[indexOld], selected: false },
+          ...type.slice(indexOld + 1)
+        ])
 
     if (indexOld !== indexNew)
       newArray = [
@@ -337,9 +335,9 @@ export default class App extends Component {
     this.stateUpdateSelector(typeName, newArray)
   }
 
-  stateUpdateSelector = (typeName, newArray) => {
+  stateUpdateSelector = (key, newArray) => {
     this.setState({
-      [typeName]: newArray
+      [key]: newArray
     })
   }
 }

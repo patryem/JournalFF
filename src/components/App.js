@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import uid from 'uid'
 
 import JournalCard from './JournalCard'
-import EntryTag from './EntryTag'
+import EntryTag, { Tag } from './EntryTag'
 import Separator from './Separator'
 import Button from './Button'
 
@@ -20,6 +20,7 @@ const ListItem = styled.li`
   font-size: 18px;
   color: rgb(0, 15, 85);
   padding-right: 10px;
+  display: flex;
 `
 
 const ListContainer = styled.div`
@@ -36,12 +37,7 @@ export default class App extends Component {
     editEntry: false,
     createNewTask: false,
     editIndex: 0,
-    entryTexts: [
-      {
-        text: 'Edit this Entry!',
-        textConfig: {}
-      }
-    ],
+    entryTexts: [],
     tasks: [
       {
         text: 'work',
@@ -50,7 +46,8 @@ export default class App extends Component {
         time: true,
         amount: false,
         mood: true,
-        energy: true
+        energy: true,
+        type: 'task'
       },
       {
         text: 'eat',
@@ -59,7 +56,8 @@ export default class App extends Component {
         time: false,
         amount: true,
         mood: false,
-        energy: true
+        energy: true,
+        type: 'task'
       },
       {
         text: 'sleep',
@@ -68,7 +66,8 @@ export default class App extends Component {
         time: true,
         amount: false,
         mood: true,
-        energy: true
+        energy: true,
+        type: 'task'
       },
       {
         text: 'sport',
@@ -77,26 +76,27 @@ export default class App extends Component {
         time: true,
         amount: true,
         mood: true,
-        energy: true
+        energy: true,
+        type: 'task'
       }
     ],
 
     amount: [
-      { text: 'a bit', selected: false, id: uid() },
-      { text: 'some', selected: false, id: uid() },
-      { text: 'a lot', selected: false, id: uid() }
+      { text: 'a bit', selected: false, id: uid(), type: 'amount' },
+      { text: 'some', selected: false, id: uid(), type: 'amount' },
+      { text: 'a lot', selected: false, id: uid(), type: 'amount' }
     ],
 
     energy: [
-      { text: 'energized', selected: false, id: uid() },
-      { text: 'normal', selected: false, id: uid() },
-      { text: 'tired', selected: false, id: uid() }
+      { text: 'energized', selected: false, id: uid(), type: 'energy' },
+      { text: 'normal', selected: false, id: uid(), type: 'energy' },
+      { text: 'tired', selected: false, id: uid(), type: 'energy' }
     ],
 
     mood: [
-      { text: 'happy', selected: false, id: uid() },
-      { text: 'neutral', selected: false, id: uid() },
-      { text: 'unhappy', selected: false, id: uid() }
+      { text: 'happy', selected: false, id: uid(), type: 'mood' },
+      { text: 'neutral', selected: false, id: uid(), type: 'mood' },
+      { text: 'unhappy', selected: false, id: uid(), type: 'mood' }
     ]
   }
 
@@ -122,9 +122,9 @@ export default class App extends Component {
           date={new Date()}
           handleSubmit={this.handleSubmit}
           renderJournalTexts={this.renderJournalTexts}
-          renderAmount={this.renderAmount}
-          renderEnergy={this.renderEnergy}
-          renderMood={this.renderMood}
+          renderAmount={() => this.handleRenderTags('amount')}
+          renderEnergy={() => this.handleRenderTags('energy')}
+          renderMood={() => this.handleRenderTags('mood')}
           renderTasks={this.renderTasks}
           replaceEntry={() => this.replaceEntry(this.state.editIndex)}
           submitNewTask={this.submitNewTask}
@@ -140,78 +140,43 @@ export default class App extends Component {
     return this.daysArray[dayIndex]
   }
 
-  renderAnyTags(type, typeName) {
+  renderTags(type, typeName) {
     return type.map(item => (
       <EntryTag
         text={item.text}
         selected={item.selected}
         onClick={() => this.selectClickedTag(item.id, type, typeName)}
         key={item.id}
+        padding={8}
       />
     ))
   }
 
-  renderAmount = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.amount === true)
-        return (
-          <React.Fragment>
-            <Separator text="Amount" />
-            {this.renderAnyTags(this.state.amount, 'amount')}
-          </React.Fragment>
-        )
+  handleRenderTags = type => {
+    const selectedTask = this.state.tasks.find(task => task.selected)
+    if (selectedTask && selectedTask[type]) {
+      return (
+        <React.Fragment>
+          <Separator text={type} />
+          {this.renderTags(this.state[type], type)}
+        </React.Fragment>
+      )
     }
   }
-
-  renderEnergy = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.energy === true)
-        return (
-          <React.Fragment>
-            <Separator text="Energy" />
-            {this.renderAnyTags(this.state.energy, 'energy')}
-          </React.Fragment>
-        )
-    }
-  }
-
-  renderMood = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.mood === true)
-        return (
-          <React.Fragment>
-            <Separator text="Mood" />
-            {this.renderAnyTags(this.state.mood, 'mood')}
-          </React.Fragment>
-        )
-    }
-  }
-
   renderTasks = () => {
-    return this.renderAnyTags(this.state.tasks, 'tasks')
+    return this.renderTags(this.state.tasks, 'tasks')
   }
 
   handleSubmit = index => {
-    const task = this.state.tasks.find(item => item.selected === true)
-    const amount = this.state.amount.find(item => item.selected === true)
-    const energy = this.state.energy.find(item => item.selected === true)
-    const mood = this.state.mood.find(item => item.selected === true)
-
-    const entry = { task, amount, energy, mood }
+    const entrys = ['tasks', 'amount', 'energy', 'mood']
+      .map(option => {
+        return this.state[option].find(item => item.selected === true)
+      })
+      .filter(item => item)
 
     this.toggleEntryWindow()
 
-    if (index == null) this.addJournalText(entry)
-    else this.addJournalText(entry, index)
+    !index ? this.addJournalText(entrys) : this.addJournalText(entrys, index)
   }
 
   toggleEntryWindow = () => {
@@ -221,60 +186,34 @@ export default class App extends Component {
     })
   }
 
-  createTextConfig = entry => {
-    let textConfig
-    if (entry.amount != null)
-      textConfig = { ...textConfig, amount: entry.amount.text }
-    if (entry.energy != null)
-      textConfig = { ...textConfig, energy: entry.energy.text }
-    if (entry.mood != null)
-      textConfig = { ...textConfig, mood: entry.mood.text }
-    if (entry.task != null)
-      textConfig = { ...textConfig, task: entry.task.text }
-    return textConfig
+  createTextConfig = entrys => {
+    return entrys.map(item => {
+      return { [item.type]: item.text }
+    })
   }
 
-  addJournalText = (entry, index) => {
-    if (entry.task != null) {
-      let newEntryText = `I did `
+  addJournalText = (entrys, index) => {
+    const textConfig = this.createTextConfig(entrys)
 
-      if (entry.amount != null) {
-        newEntryText = newEntryText + entry.amount.text
-      }
+    const newEntryText = entrys.map(item => {
+      return <Tag key={item.type}>{item.text}</Tag>
+    })
 
-      newEntryText = newEntryText + ` ` + entry.task.text + `ing `
-
-      if (entry.mood && entry.energy != null) {
-        newEntryText =
-          newEntryText +
-          `and feel ` +
-          entry.mood.text +
-          ` and ` +
-          entry.energy.text
-      } else if (entry.mood != null) {
-        newEntryText = newEntryText + `and feel ` + entry.mood.text
-      } else if (entry.energy != null) {
-        newEntryText = newEntryText + `and feel ` + entry.energy.text
-      }
-
-      const textConfig = this.createTextConfig(entry)
-
-      this.state.editEntry
-        ? this.setState({
-            entryTexts: [
-              ...this.state.entryTexts.slice(0, index),
-              { text: newEntryText, textConfig },
-              ...this.state.entryTexts.slice(index + 1)
-            ],
-            editEntry: !this.state.editEntry
-          })
-        : this.setState({
-            entryTexts: [
-              ...this.state.entryTexts,
-              { text: newEntryText, textConfig }
-            ]
-          })
-    }
+    this.state.editEntry
+      ? this.setState({
+          entryTexts: [
+            ...this.state.entryTexts.slice(0, index),
+            { text: newEntryText, textConfig },
+            ...this.state.entryTexts.slice(index + 1)
+          ],
+          editEntry: !this.state.editEntry
+        })
+      : this.setState({
+          entryTexts: [
+            ...this.state.entryTexts,
+            { text: newEntryText, textConfig }
+          ]
+        })
   }
 
   renderJournalTexts = () => {
@@ -331,31 +270,18 @@ export default class App extends Component {
   }
 
   resetTags() {
-    const tasksReseted = this.state.tasks.map(task => {
-      task.selected = false
-      return task
-    })
-
-    const amountReseted = this.state.amount.map(amount => {
-      amount.selected = false
-      return amount
-    })
-
-    const moodReseted = this.state.mood.map(mood => {
-      mood.selected = false
-      return mood
-    })
-
-    const energyReseted = this.state.energy.map(energy => {
-      energy.selected = false
-      return energy
-    })
+    const reset = list => {
+      return list.map(item => {
+        item.selected = false
+        return item
+      })
+    }
 
     this.setState({
-      amount: amountReseted,
-      tasks: tasksReseted,
-      mood: moodReseted,
-      energy: energyReseted
+      tasks: reset(this.state.tasks),
+      amount: reset(this.state.amount),
+      energy: reset(this.state.energy),
+      mood: reset(this.state.mood)
     })
   }
 
@@ -412,21 +338,8 @@ export default class App extends Component {
   }
 
   stateUpdateSelector = (typeName, newArray) => {
-    if (typeName === 'tasks')
-      this.setState({
-        tasks: newArray
-      })
-    else if (typeName === 'amount')
-      this.setState({
-        amount: newArray
-      })
-    else if (typeName === 'energy')
-      this.setState({
-        energy: newArray
-      })
-    else
-      this.setState({
-        mood: newArray
-      })
+    this.setState({
+      [typeName]: newArray
+    })
   }
 }

@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-const Tag = styled.div`
+export const Tag = styled.div`
   background: #7aa8bf;
   border-radius: 5px;
   color: #333;
   max-width: 100px;
   min-width: 50px;
-  padding: 8px;
+  padding: ${props => props.padding || 1}px;
+  margin: 0 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,12 +30,13 @@ export default class EntryTag extends Component {
   }
 
   render() {
-    const { text, onClick, selected } = this.props
+    const { text, onClick, selected, padding } = this.props
     return (
       <Tag
         data-cy="EntryTag"
         onClick={onClick}
         className={selected ? 'selected' : ''}
+        padding={padding}
       >
         {text}
       </Tag>

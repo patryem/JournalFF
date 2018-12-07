@@ -9,8 +9,9 @@ import Checkbox from './Checkbox'
 const Wrapper = styled.section`
   width: 85vw;
   min-height: 200px;
-  background: #fefefe;
-  box-shadow: 0 0 10px 0 #ccc;
+  background: rgb(245, 245, 245);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.23);
+  border-radius: 5px;
   justify-self: center;
   padding: 10px;
   box-sizing: border-box;

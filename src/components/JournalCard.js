@@ -12,9 +12,9 @@ const Wrapper = styled.section`
   box-sizing: border-box;
   border-radius: 5px;
   display: grid;
-  grid-template-rows: 50px auto;
+  grid-template-rows: 75px auto;
   position: absolute;
-  top: 10vh;
+  top: 4vh;
 `
 const CardsContainer = styled.section`
   height: 400px;
@@ -32,17 +32,20 @@ const CardNav = styled.section`
   padding: 30px;
 `
 
-const Header = styled.h1`
+const Header = styled.header`
   grid-column: 1 / -1;
   display: flex;
   justify-content: space-around;
+  align-items: center;
+  height: 60px;
   margin: 0 0 10px 0;
-  padding: 10px;
+  padding: 10px 10px 15px 10px;
   border-radius: 5px 5px 0 0;
-  box-shadow: 0 6px 12px rgba(10, 10, 13, 0.12);
   font-size: 24px;
-  background: #abdaf2;
-  color: #333;
+  text-transform: uppercase;
+  font-weight: bold;
+  background: #0069c0;
+  color: #000;
 `
 
 export default class JournalCard extends Component {

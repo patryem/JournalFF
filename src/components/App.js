@@ -10,7 +10,7 @@ import EntryCard from './EntryCard'
 
 const Wrapper = styled.section`
   height: 100vh;
-  background: #efefef;
+  background: #111;
   display: flex;
   justify-content: center;
   box-sizing: border-box;

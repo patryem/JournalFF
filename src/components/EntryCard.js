@@ -6,12 +6,13 @@ import Icon from './Icon'
 import Option from './Option'
 
 const Wrapper = styled.section`
-  width: 320px;
-  max-height: 114px;
-  border-radius: 3px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  width: 85vw;
+  max-height: 160px;
+  border-radius: 5px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.23);
   position: relative;
   margin-bottom: 10px;
+  background: rgb(245, 245, 245);
 `
 
 const Header = styled.header`
@@ -28,7 +29,7 @@ const Footer = styled.footer`
   flex-wrap: wrap;
   overflow: hidden;
   &.active {
-    max-height: 64px;
+    max-height: 100px;
   }
 `
 
@@ -42,7 +43,7 @@ const TaskBox = styled.div`
 const TimeBox = styled.div`
   font-size: 20px;
   padding: 5px 0;
-  margin: 5px 0;
+  margin: 5px;
   line-height: 0.9;
 `
 

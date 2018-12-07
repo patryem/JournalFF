@@ -9,6 +9,8 @@ import Button from '../components/Button'
 import EntryTag from '../components/EntryTag'
 import Separator from '../components/Separator'
 import Input from '../components/Input'
+import EntryCard from '../components/EntryCard'
+import InfoBox from '../components/InfoBox'
 
 import StyleBox from './StyleBox'
 
@@ -17,10 +19,18 @@ function dateKnob(name, defaultValue) {
   return new Date(stringTimestamp)
 }
 
-storiesOf('Button', module).add('Add Story', () => (
+storiesOf('Button', module).add('Add Entry', () => (
   <Button
     text={text('Buttontext', 'Add Entry')}
     onClick={action('Open new window')}
+  />
+))
+
+storiesOf('EntryCard', module).add('EntryCard', () => (
+  <EntryCard
+    energy={text('EnergyText', 'energized')}
+    time={150}
+    task={text('Task', 'work')}
   />
 ))
 
@@ -39,6 +49,28 @@ storiesOf('EntryTag', module).add('Entrytag', () => (
       selected={boolean('Tag 2: selected', true)}
     />
   </React.Fragment>
+))
+
+storiesOf('InfoBox', module).add('Default Input', () => (
+  <InfoBox
+    backgroundNumber={select(
+      'Icons',
+      {
+        clock: '0',
+        Amount: '1',
+        Amount2: '2',
+        Amount3: '3',
+        Energy: '4',
+        Energy2: '5',
+        Energy3: '6',
+        Mood: '7',
+        Mood2: '8',
+        Mood3: '9'
+      },
+      '0'
+    )}
+    typeText={text('Mood or Energy level: ', 'jonny ')}
+  />
 ))
 
 storiesOf('Input', module).add('Default Input', () => (

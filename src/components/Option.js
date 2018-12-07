@@ -8,8 +8,7 @@ const Wrapper = styled.div`
   padding: 10px;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  right: 0;
+  justify-self: flex-end;
   :hover {
     background: #eee;
   }

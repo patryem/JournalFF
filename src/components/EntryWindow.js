@@ -23,10 +23,11 @@ const Wrapper = styled.section`
   position: absolute;
   bottom: 30px;
   &.newTask {
-    grid-template-columns: auto;
+    grid-template-columns: 80vw;
     grid-gap: 5px;
     justify-content: center;
   }
+
   .alert {
     display: flex;
     justify-content: center;

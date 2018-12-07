@@ -16,7 +16,9 @@ const Wrapper = styled.section`
 `
 
 const Header = styled.header`
-  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  min-height: 50px;
   display: flex;
   align-items: center;
 `
@@ -34,10 +36,14 @@ const Footer = styled.footer`
 `
 
 const TaskBox = styled.div`
-  text-align: center;
   width: 120px;
-  font-size: 30px;
-  margin: 0 10px;
+  font-size: 25px;
+  height: auto;
+  margin: 10px;
+  line-height: 19px;
+  text-align: center;
+  hyphens: auto;
+  justify-self: flex-start;
 `
 
 const TimeBox = styled.div`

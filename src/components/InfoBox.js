@@ -8,6 +8,7 @@ const InfoContainer = styled.div`
   grid-template-columns: 1fr 5fr;
   width: 150px;
   height: 25px;
+  margin: 2px;
   border: 1.5px solid black;
   border-radius: 2px;
   font-size: 20px;

@@ -6,6 +6,7 @@ import JournalCard from './JournalCard'
 import EntryTag, { Tag } from './EntryTag'
 import Separator from './Separator'
 import Button from './Button'
+import EntryCard from './EntryCard'
 
 const Wrapper = styled.section`
   height: 100vh;
@@ -82,21 +83,27 @@ export default class App extends Component {
     ],
 
     amount: [
-      { text: 'a bit', selected: false, id: uid(), type: 'amount' },
-      { text: 'some', selected: false, id: uid(), type: 'amount' },
-      { text: 'a lot', selected: false, id: uid(), type: 'amount' }
+      { icon: 1, text: 'a bit', selected: false, id: uid(), type: 'amount' },
+      { icon: 2, text: 'some', selected: false, id: uid(), type: 'amount' },
+      { icon: 3, text: 'a lot', selected: false, id: uid(), type: 'amount' }
     ],
 
     energy: [
-      { text: 'energized', selected: false, id: uid(), type: 'energy' },
-      { text: 'normal', selected: false, id: uid(), type: 'energy' },
-      { text: 'tired', selected: false, id: uid(), type: 'energy' }
+      {
+        icon: 4,
+        text: 'energized',
+        selected: false,
+        id: uid(),
+        type: 'energy'
+      },
+      { icon: 5, text: 'normal', selected: false, id: uid(), type: 'energy' },
+      { icon: 6, text: 'tired', selected: false, id: uid(), type: 'energy' }
     ],
 
     mood: [
-      { text: 'happy', selected: false, id: uid(), type: 'mood' },
-      { text: 'neutral', selected: false, id: uid(), type: 'mood' },
-      { text: 'unhappy', selected: false, id: uid(), type: 'mood' }
+      { icon: 7, text: 'happy', selected: false, id: uid(), type: 'mood' },
+      { icon: 8, text: 'neutral', selected: false, id: uid(), type: 'mood' },
+      { icon: 9, text: 'unhappy', selected: false, id: uid(), type: 'mood' }
     ]
   }
 
@@ -195,39 +202,30 @@ export default class App extends Component {
   addJournalText = (entrys, index) => {
     const textConfig = this.createTextConfig(entrys)
 
-    const newEntryText = entrys.map(item => {
-      return <Tag key={item.type}>{item.text}</Tag>
+    const entryData = entrys.map(item => {
+      if (item.type === 'tasks') return { [item.type]: item.text }
+      else return { icon: item.icon, text: item.text }
     })
 
     this.state.editEntry
       ? this.setState({
           entryTexts: [
             ...this.state.entryTexts.slice(0, index),
-            { text: newEntryText, textConfig },
+            { entryData, textConfig },
             ...this.state.entryTexts.slice(index + 1)
           ],
           editEntry: !this.state.editEntry
         })
       : this.setState({
-          entryTexts: [
-            ...this.state.entryTexts,
-            { text: newEntryText, textConfig }
-          ]
+          entryTexts: [...this.state.entryTexts, { entryData, textConfig }]
         })
   }
 
   renderJournalTexts = () => {
-    return this.state.entryTexts.map((text, index) => (
-      <ListContainer key={index}>
-        <ListItem key={index}>{text.text}</ListItem>
-        <Button
-          text="Edit"
-          onClick={() => this.prepareEdit(index)}
-          fontSize={12}
-          background="7aa8bf"
-        />
-      </ListContainer>
-    ))
+    if (this.state.entryTexts[0])
+      return this.state.entryTexts.map((data, index) => (
+        <EntryCard key={index} data={data.entryData} />
+      ))
   }
 
   replaceEntry = index => {

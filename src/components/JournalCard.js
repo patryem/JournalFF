@@ -16,10 +16,17 @@ const Wrapper = styled.section`
   position: absolute;
   top: 10vh;
 `
+const CardsContainer = styled.section`
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+`
 
 const CardNav = styled.section`
   box-sizing: border-box;
-  height: 100px;
+  height: 50px;
   display: flex;
   justify-content: space-around;
   padding: 30px;
@@ -29,7 +36,7 @@ const Header = styled.h1`
   grid-column: 1 / -1;
   display: flex;
   justify-content: space-around;
-  margin: 0;
+  margin: 0 0 10px 0;
   padding: 10px;
   border-radius: 5px 5px 0 0;
   box-shadow: 0 6px 12px rgba(10, 10, 13, 0.12);
@@ -39,6 +46,7 @@ const Header = styled.h1`
 `
 
 export default class JournalCard extends Component {
+  cardContainer = React.createRef()
   static propTypes = {
     day: PropTypes.string,
     date: PropTypes.object
@@ -46,6 +54,18 @@ export default class JournalCard extends Component {
 
   static defaultProps = {
     day: 'Today'
+  }
+
+  componentDidMount = () => {
+    this.cardContainer.current.scrollTop =
+      this.cardContainer.current.scrollHeight -
+      this.cardContainer.current.getBoundingClientRect().height
+  }
+
+  componentDidUpdate = () => {
+    this.cardContainer.current.scrollTop =
+      this.cardContainer.current.scrollHeight -
+      this.cardContainer.current.getBoundingClientRect().height
   }
 
   render() {
@@ -73,7 +93,10 @@ export default class JournalCard extends Component {
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
         </Header>
-        <ul>{renderJournalTexts()}</ul>
+        <CardsContainer ref={this.cardContainer}>
+          {renderJournalTexts()}
+        </CardsContainer>
+
         {openEntryWindow ? (
           <EntryWindow
             createNewTask={createNewTask}

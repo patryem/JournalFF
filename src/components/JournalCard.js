@@ -7,6 +7,7 @@ import Button from './Button'
 
 const Wrapper = styled.section`
   width: 90vw;
+  min-height: 600px;
   height: 80vh;
   background: #fefefe;
   box-sizing: border-box;

@@ -24,7 +24,7 @@ const Wrapper = styled.section`
   bottom: 30px;
   &.newTask {
     grid-template-columns: 80vw;
-    grid-gap: 5px;
+    grid-gap: 10px;
     justify-content: center;
   }
 
@@ -40,7 +40,16 @@ const Wrapper = styled.section`
     grid-column: 1 / -1;
   }
   label {
-    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    font-size: 25px;
+    line-height: 1.5;
+    & div {
+      margin: 0 20px;
+      justify-self: center;
+    }
   }
 `
 
@@ -70,31 +79,33 @@ export default class EntryWindow extends Component {
     } = this.props
     return createNewTask ? (
       <Wrapper data-cy="EntryWindow" className="newTask">
-        <div>
-          <Input
-            name={'newTask'}
-            labelText={'New Task: '}
-            onChange={this.handleChange}
-          />
-          <div className="alert">{errorMessage}</div>
-        </div>
+        <Input
+          name={'newTask'}
+          labelText={'Task: '}
+          onChange={this.handleChange}
+        />
+        <div className="alert">{errorMessage}</div>
+
         <Checkbox
           checked={this.state.amount}
           name={'amount'}
           label={'Amount'}
           onChange={this.handleChange}
+          backgroundNumber={2}
         />
         <Checkbox
           checked={this.state.energy}
           name={'energy'}
           label={'Energy'}
           onChange={this.handleChange}
+          backgroundNumber={5}
         />
         <Checkbox
           checked={this.state.mood}
           name={'mood'}
           label={'Mood'}
           onChange={this.handleChange}
+          backgroundNumber={7}
         />
         <Button
           text="Add Task"

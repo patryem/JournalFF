@@ -208,7 +208,12 @@ export default class App extends Component {
   renderJournalTexts = () => {
     if (this.state.entryTexts[0])
       return this.state.entryTexts.map((data, index) => (
-        <EntryCard key={index} data={data.entryData} />
+        <EntryCard
+          key={index}
+          data={data.entryData}
+          deleteEntry={() => this.deleteEntry(index)}
+          editEntry={() => this.prepareEdit(index)}
+        />
       ))
   }
 
@@ -244,6 +249,17 @@ export default class App extends Component {
     this.setState({
       editEntry: !this.state.editEntry,
       editIndex: index
+    })
+  }
+
+  deleteEntry = index => {
+    const newArray = [
+      ...this.state.entryTexts.slice(0, index),
+      ...this.state.entryTexts.slice(index + 1)
+    ]
+
+    this.setState({
+      entryTexts: newArray
     })
   }
 

@@ -19,14 +19,14 @@ export default class OptionWindow extends Component {
     return (
       <Wrapper>
         <Button
-          onClick={this.clickHandler}
+          onClick={this.deleteEntry}
           fontSize={14}
           height={30}
           background="ab3a2a"
           text="Delete"
         />
         <Button
-          onClick={this.clickHandler}
+          onClick={this.editEntry}
           fontSize={14}
           height={30}
           background="ab3a2a"
@@ -36,8 +36,13 @@ export default class OptionWindow extends Component {
     )
   }
 
-  clickHandler(event) {
+  deleteEntry = event => {
     event.stopPropagation()
-    console.log('click')
+    this.props.deleteEntry()
+  }
+  editEntry = event => {
+    event.stopPropagation()
+    this.props.editEntry()
+    this.props.toggleOption()
   }
 }

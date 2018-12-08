@@ -60,6 +60,7 @@ export default class EntryCard extends Component {
   }
 
   render() {
+    const { deleteEntry, editEntry } = this.props
     return (
       <Wrapper onClick={this.toggleActive}>
         <Header>
@@ -68,8 +69,14 @@ export default class EntryCard extends Component {
           <TimeBox>
             {150} <br /> min
           </TimeBox>
-          {this.state.option ? <OptionWindow /> : null}
-          <Option onClick={this.toggleOption} />
+          {this.state.option ? (
+            <OptionWindow
+              editEntry={editEntry}
+              deleteEntry={deleteEntry}
+              toggleOption={this.toggleOption}
+            />
+          ) : null}
+          <Option onClick={this.toggleOptionAndPreventPropagation} />
         </Header>
         <Footer className={this.state.active ? 'active' : ''}>
           {this.renderInfos()}
@@ -102,8 +109,15 @@ export default class EntryCard extends Component {
     })
   }
 
-  toggleOption = event => {
+  toggleOptionAndPreventPropagation = event => {
     event.stopPropagation()
+
+    this.setState({
+      option: !this.state.option
+    })
+  }
+
+  toggleOption = () => {
     this.setState({
       option: !this.state.option
     })

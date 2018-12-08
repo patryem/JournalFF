@@ -22,6 +22,7 @@ export default class App extends Component {
     editEntry: false,
     createNewTask: false,
     editIndex: 0,
+    time: 15,
     entryTexts: [],
     tasks: [
       {

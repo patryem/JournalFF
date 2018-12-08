@@ -90,15 +90,20 @@ export default class EntryCard extends Component {
 
   renderIcons() {
     return this.props.data.map(
-      entry => entry.icon && <Icon backgroundNumber={entry.icon} />
+      entry =>
+        entry.icon && <Icon backgroundNumber={entry.icon} key={entry.icon} />
     )
   }
 
   renderInfos() {
     return this.props.data.map(
-      entry =>
+      (entry, index) =>
         entry.icon && (
-          <InfoBox backgroundNumber={entry.icon} typeText={entry.text} />
+          <InfoBox
+            backgroundNumber={entry.icon}
+            typeText={entry.text}
+            key={entry.text + index}
+          />
         )
     )
   }

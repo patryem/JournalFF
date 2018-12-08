@@ -7,6 +7,7 @@ const ButtonEl = styled.button`
   border: none;
   border-radius: 5px;
   padding: 0 9px 13px 9px;
+  margin: 0 5px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.23);
   color: #000;
   font-size: ${props => props.fontSize || 12}px;

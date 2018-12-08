@@ -3,9 +3,8 @@ import styled from 'styled-components'
 import uid from 'uid'
 
 import JournalCard from './JournalCard'
-import EntryTag, { Tag } from './EntryTag'
+import EntryTag from './EntryTag'
 import Separator from './Separator'
-import Button from './Button'
 import EntryCard from './EntryCard'
 
 const Wrapper = styled.section`
@@ -14,21 +13,6 @@ const Wrapper = styled.section`
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-`
-
-const ListItem = styled.li`
-  grid-column: 1 / -1;
-  font-size: 18px;
-  color: rgb(0, 15, 85);
-  padding-right: 10px;
-  display: flex;
-`
-
-const ListContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px;
 `
 
 export default class App extends Component {

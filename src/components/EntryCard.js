@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import InfoBox from './InfoBox'
 import Icon from './Icon'
 import Option from './Option'
+import OptionWindow from './OptionWindow'
 
 const Wrapper = styled.section`
   width: 85vw;
@@ -19,7 +20,6 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   min-height: 50px;
-  display: flex;
   align-items: center;
 `
 
@@ -55,7 +55,8 @@ const TimeBox = styled.div`
 
 export default class EntryCard extends Component {
   state = {
-    active: false
+    active: false,
+    option: false
   }
 
   render() {
@@ -67,7 +68,8 @@ export default class EntryCard extends Component {
           <TimeBox>
             {150} <br /> min
           </TimeBox>
-          <Option />
+          {this.state.option ? <OptionWindow /> : null}
+          <Option onClick={this.toggleOption} />
         </Header>
         <Footer className={this.state.active ? 'active' : ''}>
           {this.renderInfos()}
@@ -97,6 +99,13 @@ export default class EntryCard extends Component {
   toggleActive = () => {
     this.setState({
       active: !this.state.active
+    })
+  }
+
+  toggleOption = event => {
+    event.stopPropagation()
+    this.setState({
+      option: !this.state.option
     })
   }
 }

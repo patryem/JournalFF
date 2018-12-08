@@ -26,9 +26,10 @@ const Dots = styled.div`
 
 export default class Option extends Component {
   render() {
+    const { onClick } = this.props
     return (
       <Wrapper>
-        <Dots />
+        <Dots onClick={onClick} />
       </Wrapper>
     )
   }

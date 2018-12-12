@@ -11,7 +11,7 @@ const ButtonEl = styled.button`
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.23);
   color: #000;
   font-size: ${props => props.fontSize || 12}px;
-  font-family: Gloria Hallelujah;
+  font-family: Gloria Hallelujah, sans-serif;
   height: ${props => props.height || 20}px;
   display: flex;
   align-items: center;

@@ -39,8 +39,8 @@ const Header = styled.header`
   justify-content: space-between;
   align-items: center;
   height: 60px;
-  margin: 0 0 10px 0;
-  padding: 10px 10px 15px 10px;
+  margin: 0 0 10px;
+  padding: 10px 10px 15px;
   border-radius: 5px 5px 0 0;
   font-size: 24px;
   text-transform: uppercase;

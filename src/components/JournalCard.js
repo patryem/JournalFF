@@ -100,6 +100,7 @@ export default class JournalCard extends Component {
       renderSlider,
       renderTasks,
       replaceEntry,
+      resetTime,
       submitNewTask,
       toggleCreateNewTaskWindow,
       toggleEntryWindow
@@ -129,6 +130,7 @@ export default class JournalCard extends Component {
             submitNewTask={submitNewTask}
             errorMessage={errorMessage}
             renderSlider={renderSlider}
+            resetTime={resetTime}
           />
         ) : (
           <CardNav>

@@ -66,16 +66,14 @@ export default class EntryCard extends Component {
         <Header>
           <TaskBox>{this.getTask()}</TaskBox>
           {this.renderIcons()}
-          {/* <TimeBox>
-            {150} <br /> min
-          </TimeBox> */}
-          {this.state.option ? (
+          {this.getTime()}
+          {this.state.option && (
             <OptionWindow
               editEntry={editEntry}
               deleteEntry={deleteEntry}
               toggleOption={this.toggleOption}
             />
-          ) : null}
+          )}
           <Option onClick={this.toggleOptionAndPreventPropagation} />
         </Header>
         <Footer className={this.state.active ? 'active' : ''}>
@@ -106,6 +104,17 @@ export default class EntryCard extends Component {
           />
         )
     )
+  }
+
+  getTime() {
+    const timeObject = this.props.data.find(item => item.timeSpent)
+
+    if (timeObject)
+      return (
+        <TimeBox>
+          {timeObject.timeSpent} <br /> min
+        </TimeBox>
+      )
   }
 
   toggleActive = () => {

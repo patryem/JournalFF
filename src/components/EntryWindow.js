@@ -13,13 +13,14 @@ const Wrapper = styled.section`
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.23);
   border-radius: 5px;
   justify-self: center;
+  justify-content: center;
   padding: 10px;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: repeat(autofill, 80px);
+  grid-template-columns: repeat(auto-fill, 90px);
   grid-auto-rows: auto;
   grid-gap: 10px;
-  bottom: 30px;
+  bottom: 10px;
   position: absolute;
   bottom: 30px;
   &.newTask {
@@ -38,6 +39,7 @@ const Wrapper = styled.section`
   }
   button {
     grid-column: 1 / -1;
+    margin: 10px 0;
   }
 `
 
@@ -50,7 +52,8 @@ export default class EntryWindow extends Component {
     text: '',
     amount: '',
     energy: '',
-    mood: ''
+    mood: '',
+    time: ''
   }
 
   render() {
@@ -58,13 +61,11 @@ export default class EntryWindow extends Component {
       createNewTask,
       editEntry,
       errorMessage,
-      onClick,
       renderAmount,
       renderEnergy,
       renderMood,
       renderSlider,
-      renderTasks,
-      replaceEntry
+      renderTasks
     } = this.props
     return createNewTask ? (
       <Wrapper data-cy="EntryWindow" className="newTask">
@@ -96,6 +97,13 @@ export default class EntryWindow extends Component {
           onChange={this.handleChange}
           backgroundNumber={7}
         />
+        <Checkbox
+          checked={this.state.time}
+          name={'time'}
+          label={'Time spent'}
+          onChange={this.handleChange}
+          backgroundNumber={10}
+        />
         <Button
           text="Add Task"
           onClick={this.handleEntry}
@@ -113,12 +121,23 @@ export default class EntryWindow extends Component {
         <Button
           className="submit"
           text="Submit"
-          onClick={editEntry ? (onClick, replaceEntry) : onClick}
+          onClick={editEntry ? this.handleOnClickEdit : this.handleOnClick}
           fontSize={20}
           height={35}
         />
       </Wrapper>
     )
+  }
+
+  handleOnClick = () => {
+    this.props.onClick()
+    this.props.resetTime()
+  }
+
+  handleOnClickEdit = () => {
+    this.props.onClick()
+    this.props.replaceEntry()
+    this.props.resetTime()
   }
 
   handleChange = event => {
@@ -135,6 +154,9 @@ export default class EntryWindow extends Component {
       case 'newTask':
         this.setState({ text: event.target.value })
         break
+      case 'time':
+        this.setState({ time: event.target.checked })
+        break
       default:
         break
     }
@@ -147,7 +169,8 @@ export default class EntryWindow extends Component {
         text: '',
         amount: '',
         energy: '',
-        mood: ''
+        mood: '',
+        time: ''
       })
   }
 }

@@ -122,6 +122,7 @@ export default class App extends Component {
           renderSlider={this.renderSlider}
           renderTasks={this.renderTasks}
           replaceEntry={() => this.replaceEntry(this.state.editIndex)}
+          resetTime={this.resetTime}
           submitNewTask={this.submitNewTask}
           toggleCreateNewTaskWindow={this.toggleCreateNewTaskWindow}
           toggleEntryWindow={this.toggleEntryWindow}
@@ -179,23 +180,28 @@ export default class App extends Component {
     }
   }
 
-  setTime = event => {
-    this.setState({ time: event.target.value })
+  setTime = value => {
+    this.setState({ time: value })
   }
-  resetTime = event => {
+
+  resetTime = () => {
     this.setState({ time: 15 })
   }
 
   handleSubmit = index => {
-    const entrys = ['tasks', 'amount', 'energy', 'mood']
+    let entries = ['tasks', 'amount', 'energy', 'mood']
       .map(option => {
-        return this.state[option].find(item => item.selected === true)
+        return this.state[option].find(item => item.selected)
       })
       .filter(item => item)
 
+    if (entries[0].time) entries = [...entries, { timeSpent: this.state.time }]
+
     this.toggleEntryWindow()
 
-    index < 0 ? this.addJournalText(entrys) : this.addJournalText(entrys, index)
+    index | (index === 0)
+      ? this.addJournalText(entries, index)
+      : this.addJournalText(entries)
   }
 
   toggleEntryWindow = () => {
@@ -205,17 +211,19 @@ export default class App extends Component {
     })
   }
 
-  createTextConfig = entrys => {
-    return entrys.map(item => {
+  createTextConfig = entries => {
+    return entries.map(item => {
+      if (item.timeSpent) return item
       return { [item.type]: item.text }
     })
   }
 
-  addJournalText = (entrys, index) => {
-    const textConfig = this.createTextConfig(entrys)
+  addJournalText = (entries, index) => {
+    const textConfig = this.createTextConfig(entries)
 
-    const entryData = entrys.map(item => {
+    const entryData = entries.map(item => {
       if (item.type === 'tasks') return { [item.type]: item.text }
+      else if (item.timeSpent) return item
       else return { icon: item.icon, text: item.text }
     })
 
@@ -276,8 +284,17 @@ export default class App extends Component {
     this.loadAllTags(index)
     this.setState({
       editEntry: !this.state.editEntry,
-      editIndex: index
+      editIndex: index,
+      time: this.getTime(index)
     })
+  }
+
+  getTime = index => {
+    const time = this.state.entryTexts[index].entryData.find(
+      item => item.timeSpent
+    )
+    if (time) return time.timeSpent
+    else return 15
   }
 
   deleteEntry = index => {
@@ -319,9 +336,9 @@ export default class App extends Component {
     const textConfig = this.state.entryTexts[index].textConfig
 
     textConfig.forEach(item => {
-      Object.entries(item).forEach(([key, value]) =>
-        this.loadSelectedTags(key, value)
-      )
+      Object.entries(item).forEach(([key, value]) => {
+        if (key !== 'timeSpent') this.loadSelectedTags(key, value)
+      })
     })
   }
 

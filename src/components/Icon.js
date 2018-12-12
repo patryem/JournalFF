@@ -8,7 +8,6 @@ margin: 0 7px;
   width: 22px;
   align-self: center;
   background-image: url("Icons/${props => props.backgroundNumber}.svg");
-
 `
 
 export default class Icon extends Component {

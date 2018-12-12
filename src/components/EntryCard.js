@@ -8,7 +8,7 @@ import OptionWindow from './OptionWindow'
 
 const Wrapper = styled.section`
   width: 85vw;
-  max-height: 160px;
+  height: auto;
   border-radius: 5px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.23);
   position: relative;
@@ -19,7 +19,6 @@ const Wrapper = styled.section`
 const Header = styled.header`
   display: flex;
   justify-content: space-between;
-  min-height: 50px;
   align-items: center;
 `
 

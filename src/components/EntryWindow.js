@@ -135,7 +135,6 @@ export default class EntryWindow extends Component {
   }
 
   handleOnClickEdit = () => {
-    this.props.onClick()
     this.props.replaceEntry()
     this.props.resetTime()
   }

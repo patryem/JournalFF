@@ -195,13 +195,17 @@ export default class App extends Component {
       })
       .filter(item => item)
 
-    if (entries[0].time) entries = [...entries, { timeSpent: this.state.time }]
-
     this.toggleEntryWindow()
 
-    index | (index === 0)
-      ? this.addJournalText(entries, index)
-      : this.addJournalText(entries)
+    if (entries.find(item => item.type === 'tasks')) {
+      if (entries[0].time)
+        entries = [...entries, { timeSpent: this.state.time }]
+
+      index | (index === 0)
+        ? this.addJournalText(entries, index)
+        : this.addJournalText(entries)
+    }
+    console.log(index)
   }
 
   toggleEntryWindow = () => {
@@ -213,7 +217,7 @@ export default class App extends Component {
 
   createTextConfig = entries => {
     return entries.map(item => {
-      if (item.timeSpent) return item
+      if (item.timeSpent | (item.timeSpent === 0)) return item
       return { [item.type]: item.text }
     })
   }

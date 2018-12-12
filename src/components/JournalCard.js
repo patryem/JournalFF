@@ -108,10 +108,8 @@ export default class JournalCard extends Component {
     return (
       <Wrapper data-cy="JournalCard">
         <Header data-cy="Date">
-          <Left />
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
-          <Right />
         </Header>
         <CardsContainer ref={this.cardContainer}>
           {renderJournalTexts()}

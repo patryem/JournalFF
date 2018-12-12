@@ -11,6 +11,7 @@ import Separator from '../components/Separator'
 import Input from '../components/Input'
 import EntryCard from '../components/EntryCard'
 import InfoBox from '../components/InfoBox'
+import Slider from '../components/Slider'
 
 import StyleBox from './StyleBox'
 
@@ -102,5 +103,18 @@ storiesOf('Separator', module).add('default', () => (
     <Separator text="One" />
     <StyleBox h={40} />
     <Separator text="Two words" />
+  </React.Fragment>
+))
+
+storiesOf('Slider', module).add('default', () => (
+  <React.Fragment>
+    <StyleBox h={40} />
+    <Slider
+      name="time"
+      value={40}
+      onChange={action('click')}
+      labelText={'Time spent'}
+    />
+    <StyleBox h={40} />
   </React.Fragment>
 ))

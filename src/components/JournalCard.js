@@ -8,7 +8,7 @@ import Button from './Button'
 const Wrapper = styled.section`
   width: 90vw;
   min-height: 600px;
-  height: 80vh;
+  height: 92vh;
   background: #fefefe;
   box-sizing: border-box;
   border-radius: 5px;
@@ -18,7 +18,7 @@ const Wrapper = styled.section`
   top: 4vh;
 `
 const CardsContainer = styled.section`
-  height: 400px;
+  height: 450px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,13 +30,13 @@ const CardNav = styled.section`
   height: 50px;
   display: flex;
   justify-content: space-around;
-  padding: 30px;
+  padding: 8px;
 `
 
 const Header = styled.header`
   grid-column: 1 / -1;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   height: 60px;
   margin: 0 0 10px 0;
@@ -47,6 +47,18 @@ const Header = styled.header`
   font-weight: bold;
   background: #0069c0;
   color: #000;
+`
+const Left = styled.div`
+  height: 40px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-image: url('Icons/arrow-left.svg');
+`
+const Right = styled.div`
+  height: 40px;
+  width: 20px;
+  background-repeat: no-repeat;
+  background-image: url('Icons/arrow-right.svg');
 `
 
 export default class JournalCard extends Component {
@@ -85,6 +97,7 @@ export default class JournalCard extends Component {
       renderAmount,
       renderEnergy,
       renderMood,
+      renderSlider,
       renderTasks,
       replaceEntry,
       submitNewTask,
@@ -94,8 +107,10 @@ export default class JournalCard extends Component {
     return (
       <Wrapper data-cy="JournalCard">
         <Header data-cy="Date">
+          <Left />
           <span>{day}</span>
           <span>{date.toLocaleDateString('de')}</span>
+          <Right />
         </Header>
         <CardsContainer ref={this.cardContainer}>
           {renderJournalTexts()}
@@ -113,6 +128,7 @@ export default class JournalCard extends Component {
             replaceEntry={replaceEntry}
             submitNewTask={submitNewTask}
             errorMessage={errorMessage}
+            renderSlider={renderSlider}
           />
         ) : (
           <CardNav>

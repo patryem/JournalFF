@@ -6,6 +6,7 @@ import JournalCard from './JournalCard'
 import EntryTag from './EntryTag'
 import Separator from './Separator'
 import EntryCard from './EntryCard'
+import Slider from './Slider'
 
 const Wrapper = styled.section`
   height: 100vh;
@@ -30,7 +31,7 @@ export default class App extends Component {
         selected: false,
         id: uid(),
         time: true,
-        amount: false,
+        amount: true,
         mood: true,
         energy: true,
         type: 'tasks'
@@ -112,11 +113,13 @@ export default class App extends Component {
           createNewTask={this.state.createNewTask}
           day={this.getDay()}
           date={new Date()}
+          setTime={this.setTime}
           handleSubmit={this.handleSubmit}
           renderJournalTexts={this.renderJournalTexts}
           renderAmount={() => this.handleRenderTags('amount')}
           renderEnergy={() => this.handleRenderTags('energy')}
           renderMood={() => this.handleRenderTags('mood')}
+          renderSlider={this.renderSlider}
           renderTasks={this.renderTasks}
           replaceEntry={() => this.replaceEntry(this.state.editIndex)}
           submitNewTask={this.submitNewTask}
@@ -157,6 +160,30 @@ export default class App extends Component {
   }
   renderTasks = () => {
     return this.renderTags(this.state.tasks, 'tasks')
+  }
+
+  renderSlider = () => {
+    const selectedTask = this.state.tasks.find(task => task.selected)
+    if (selectedTask && selectedTask.time) {
+      return (
+        <React.Fragment>
+          <Separator text="time" />
+          <Slider
+            name="time"
+            labeltext="minutes spent"
+            value={this.state.time}
+            onChange={this.setTime}
+          />
+        </React.Fragment>
+      )
+    }
+  }
+
+  setTime = event => {
+    this.setState({ time: event.target.value })
+  }
+  resetTime = event => {
+    this.setState({ time: 15 })
   }
 
   handleSubmit = index => {

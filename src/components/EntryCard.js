@@ -66,9 +66,9 @@ export default class EntryCard extends Component {
         <Header>
           <TaskBox>{this.getTask()}</TaskBox>
           {this.renderIcons()}
-          <TimeBox>
+          {/* <TimeBox>
             {150} <br /> min
-          </TimeBox>
+          </TimeBox> */}
           {this.state.option ? (
             <OptionWindow
               editEntry={editEntry}

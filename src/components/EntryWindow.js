@@ -16,8 +16,8 @@ const Wrapper = styled.section`
   padding: 10px;
   box-sizing: border-box;
   display: grid;
+  grid-template-columns: repeat(autofill, 80px);
   grid-auto-rows: auto;
-  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;
   bottom: 30px;
   position: absolute;
@@ -38,18 +38,6 @@ const Wrapper = styled.section`
   }
   button {
     grid-column: 1 / -1;
-  }
-  label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: nowrap;
-    font-size: 25px;
-    line-height: 1.5;
-    & div {
-      margin: 0 20px;
-      justify-self: center;
-    }
   }
 `
 
@@ -74,6 +62,7 @@ export default class EntryWindow extends Component {
       renderAmount,
       renderEnergy,
       renderMood,
+      renderSlider,
       renderTasks,
       replaceEntry
     } = this.props
@@ -120,6 +109,7 @@ export default class EntryWindow extends Component {
         {renderAmount()}
         {renderEnergy()}
         {renderMood()}
+        {renderSlider()}
         <Button
           className="submit"
           text="Submit"

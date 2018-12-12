@@ -39,6 +39,7 @@ export default class OptionWindow extends Component {
   deleteEntry = event => {
     event.stopPropagation()
     this.props.deleteEntry()
+    this.props.toggleOption()
   }
   editEntry = event => {
     event.stopPropagation()

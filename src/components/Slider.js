@@ -1,8 +1,19 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 
+const Label = styled.label`
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+`
+
 const Input = styled.input`
-  width: 300px;
+  width: 80vw;
+  max-width: 350px;
+  grid-column: 1 / -1;
+  .gridHandler {
+    grid-column: 1 / -1;
+  }
 `
 
 export default class Slider extends Component {
@@ -10,7 +21,7 @@ export default class Slider extends Component {
     const { name, labelText, value, onChange } = this.props
     return (
       <React.Fragment>
-        <label htmlFor={name}>
+        <Label htmlFor={name} className="gridHandler">
           {labelText}
           <Input
             type="range"
@@ -24,7 +35,8 @@ export default class Slider extends Component {
             value={value}
             onChange={event => onChange(event)}
           />
-        </label>
+          {value} min
+        </Label>
       </React.Fragment>
     )
   }

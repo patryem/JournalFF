@@ -9,23 +9,26 @@ import Checkbox from './Checkbox'
 const Wrapper = styled.section`
   width: 85vw;
   min-height: 200px;
-  background: #fefefe;
-  box-shadow: 0 0 10px 0 #ccc;
+  background: rgb(245, 245, 245);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.23);
+  border-radius: 5px;
   justify-self: center;
+  justify-content: center;
   padding: 10px;
   box-sizing: border-box;
   display: grid;
+  grid-template-columns: repeat(auto-fill, 90px);
   grid-auto-rows: auto;
-  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 10px;
-  bottom: 30px;
+  bottom: 10px;
   position: absolute;
   bottom: 30px;
   &.newTask {
-    grid-template-columns: auto;
-    grid-gap: 5px;
+    grid-template-columns: 80vw;
+    grid-gap: 10px;
     justify-content: center;
   }
+
   .alert {
     display: flex;
     justify-content: center;
@@ -36,9 +39,7 @@ const Wrapper = styled.section`
   }
   button {
     grid-column: 1 / -1;
-  }
-  label {
-    font-size: 20px;
+    margin: 10px 0;
   }
 `
 
@@ -51,7 +52,8 @@ export default class EntryWindow extends Component {
     text: '',
     amount: '',
     energy: '',
-    mood: ''
+    mood: '',
+    time: ''
   }
 
   render() {
@@ -59,40 +61,48 @@ export default class EntryWindow extends Component {
       createNewTask,
       editEntry,
       errorMessage,
-      onClick,
       renderAmount,
       renderEnergy,
       renderMood,
-      renderTasks,
-      replaceEntry
+      renderSlider,
+      renderTasks
     } = this.props
     return createNewTask ? (
       <Wrapper data-cy="EntryWindow" className="newTask">
-        <div>
-          <Input
-            name={'newTask'}
-            labelText={'New Task: '}
-            onChange={this.handleChange}
-          />
-          <div className="alert">{errorMessage}</div>
-        </div>
+        <Input
+          name={'newTask'}
+          labelText={'Task: '}
+          onChange={this.handleChange}
+        />
+        <div className="alert">{errorMessage}</div>
+
         <Checkbox
           checked={this.state.amount}
           name={'amount'}
           label={'Amount'}
           onChange={this.handleChange}
+          backgroundNumber={2}
         />
         <Checkbox
           checked={this.state.energy}
           name={'energy'}
           label={'Energy'}
           onChange={this.handleChange}
+          backgroundNumber={5}
         />
         <Checkbox
           checked={this.state.mood}
           name={'mood'}
           label={'Mood'}
           onChange={this.handleChange}
+          backgroundNumber={7}
+        />
+        <Checkbox
+          checked={this.state.time}
+          name={'time'}
+          label={'Time spent'}
+          onChange={this.handleChange}
+          backgroundNumber={10}
         />
         <Button
           text="Add Task"
@@ -107,15 +117,26 @@ export default class EntryWindow extends Component {
         {renderAmount()}
         {renderEnergy()}
         {renderMood()}
+        {renderSlider()}
         <Button
           className="submit"
           text="Submit"
-          onClick={editEntry ? (onClick, replaceEntry) : onClick}
+          onClick={editEntry ? this.handleOnClickEdit : this.handleOnClick}
           fontSize={20}
           height={35}
         />
       </Wrapper>
     )
+  }
+
+  handleOnClick = () => {
+    this.props.onClick()
+    this.props.resetTime()
+  }
+
+  handleOnClickEdit = () => {
+    this.props.replaceEntry()
+    this.props.resetTime()
   }
 
   handleChange = event => {
@@ -132,19 +153,23 @@ export default class EntryWindow extends Component {
       case 'newTask':
         this.setState({ text: event.target.value })
         break
+      case 'time':
+        this.setState({ time: event.target.checked })
+        break
       default:
         break
     }
   }
 
   handleEntry = () => {
-    this.state.text && this.props.submitNewTask(this.state)
-
-    this.setState({
-      text: '',
-      amount: '',
-      energy: '',
-      mood: ''
-    })
+    this.state.text &&
+      this.props.submitNewTask(this.state) &&
+      this.setState({
+        text: '',
+        amount: '',
+        energy: '',
+        mood: '',
+        time: ''
+      })
   }
 }

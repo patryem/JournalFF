@@ -5,28 +5,15 @@ import uid from 'uid'
 import JournalCard from './JournalCard'
 import EntryTag from './EntryTag'
 import Separator from './Separator'
-import Button from './Button'
+import EntryCard from './EntryCard'
+import Slider from './Slider'
 
 const Wrapper = styled.section`
   height: 100vh;
-  background: #efefef;
+  background: #111;
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-`
-
-const ListItem = styled.li`
-  grid-column: 1 / -1;
-  font-size: 18px;
-  color: rgb(0, 15, 85);
-  padding-right: 10px;
-`
-
-const ListContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px;
 `
 
 export default class App extends Component {
@@ -36,21 +23,18 @@ export default class App extends Component {
     editEntry: false,
     createNewTask: false,
     editIndex: 0,
-    entryTexts: [
-      {
-        text: 'Edit this Entry!',
-        textConfig: {}
-      }
-    ],
+    time: 15,
+    entryTexts: [],
     tasks: [
       {
         text: 'work',
         selected: false,
         id: uid(),
         time: true,
-        amount: false,
+        amount: true,
         mood: true,
-        energy: true
+        energy: true,
+        type: 'tasks'
       },
       {
         text: 'eat',
@@ -59,7 +43,8 @@ export default class App extends Component {
         time: false,
         amount: true,
         mood: false,
-        energy: true
+        energy: true,
+        type: 'tasks'
       },
       {
         text: 'sleep',
@@ -68,7 +53,8 @@ export default class App extends Component {
         time: true,
         amount: false,
         mood: true,
-        energy: true
+        energy: true,
+        type: 'tasks'
       },
       {
         text: 'sport',
@@ -77,26 +63,33 @@ export default class App extends Component {
         time: true,
         amount: true,
         mood: true,
-        energy: true
+        energy: true,
+        type: 'tasks'
       }
     ],
 
     amount: [
-      { text: 'a bit', selected: false, id: uid() },
-      { text: 'some', selected: false, id: uid() },
-      { text: 'a lot', selected: false, id: uid() }
+      { icon: 1, text: 'a bit', selected: false, id: uid(), type: 'amount' },
+      { icon: 2, text: 'some', selected: false, id: uid(), type: 'amount' },
+      { icon: 3, text: 'a lot', selected: false, id: uid(), type: 'amount' }
     ],
 
     energy: [
-      { text: 'energized', selected: false, id: uid() },
-      { text: 'normal', selected: false, id: uid() },
-      { text: 'tired', selected: false, id: uid() }
+      {
+        icon: 4,
+        text: 'energized',
+        selected: false,
+        id: uid(),
+        type: 'energy'
+      },
+      { icon: 5, text: 'normal', selected: false, id: uid(), type: 'energy' },
+      { icon: 6, text: 'tired', selected: false, id: uid(), type: 'energy' }
     ],
 
     mood: [
-      { text: 'happy', selected: false, id: uid() },
-      { text: 'neutral', selected: false, id: uid() },
-      { text: 'unhappy', selected: false, id: uid() }
+      { icon: 7, text: 'happy', selected: false, id: uid(), type: 'mood' },
+      { icon: 8, text: 'neutral', selected: false, id: uid(), type: 'mood' },
+      { icon: 9, text: 'unhappy', selected: false, id: uid(), type: 'mood' }
     ]
   }
 
@@ -120,13 +113,16 @@ export default class App extends Component {
           createNewTask={this.state.createNewTask}
           day={this.getDay()}
           date={new Date()}
+          setTime={this.setTime}
           handleSubmit={this.handleSubmit}
           renderJournalTexts={this.renderJournalTexts}
-          renderAmount={this.renderAmount}
-          renderEnergy={this.renderEnergy}
-          renderMood={this.renderMood}
+          renderAmount={() => this.handleRenderTags('amount')}
+          renderEnergy={() => this.handleRenderTags('energy')}
+          renderMood={() => this.handleRenderTags('mood')}
+          renderSlider={this.renderSlider}
           renderTasks={this.renderTasks}
           replaceEntry={() => this.replaceEntry(this.state.editIndex)}
+          resetTime={this.resetTime}
           submitNewTask={this.submitNewTask}
           toggleCreateNewTaskWindow={this.toggleCreateNewTaskWindow}
           toggleEntryWindow={this.toggleEntryWindow}
@@ -140,78 +136,76 @@ export default class App extends Component {
     return this.daysArray[dayIndex]
   }
 
-  renderAnyTags(type, typeName) {
+  renderTags(type, typeName) {
     return type.map(item => (
       <EntryTag
         text={item.text}
         selected={item.selected}
         onClick={() => this.selectClickedTag(item.id, type, typeName)}
         key={item.id}
+        padding={8}
       />
     ))
   }
 
-  renderAmount = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.amount === true)
-        return (
-          <React.Fragment>
-            <Separator text="Amount" />
-            {this.renderAnyTags(this.state.amount, 'amount')}
-          </React.Fragment>
-        )
+  handleRenderTags = type => {
+    const selectedTask = this.state.tasks.find(task => task.selected)
+    if (selectedTask && selectedTask[type]) {
+      return (
+        <React.Fragment>
+          <Separator text={type} />
+          {this.renderTags(this.state[type], type)}
+        </React.Fragment>
+      )
     }
   }
-
-  renderEnergy = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.energy === true)
-        return (
-          <React.Fragment>
-            <Separator text="Energy" />
-            {this.renderAnyTags(this.state.energy, 'energy')}
-          </React.Fragment>
-        )
-    }
-  }
-
-  renderMood = () => {
-    const selectedTask = this.state.tasks.find(task => task.selected === true)
-    if (selectedTask == null) {
-      return null
-    } else {
-      if (selectedTask.mood === true)
-        return (
-          <React.Fragment>
-            <Separator text="Mood" />
-            {this.renderAnyTags(this.state.mood, 'mood')}
-          </React.Fragment>
-        )
-    }
-  }
-
   renderTasks = () => {
-    return this.renderAnyTags(this.state.tasks, 'tasks')
+    return this.renderTags(this.state.tasks, 'tasks')
+  }
+
+  renderSlider = () => {
+    const selectedTask = this.state.tasks.find(task => task.selected)
+    if (selectedTask && selectedTask.time) {
+      return (
+        <React.Fragment>
+          <Separator text="time" />
+          <Slider
+            name="time"
+            labeltext="minutes spent"
+            value={this.state.time}
+            onChange={this.setTime}
+          />
+        </React.Fragment>
+      )
+    }
+  }
+
+  setTime = value => {
+    this.setState({ time: value })
+  }
+
+  resetTime = () => {
+    this.setState({ time: 15 })
   }
 
   handleSubmit = index => {
-    const task = this.state.tasks.find(item => item.selected === true)
-    const amount = this.state.amount.find(item => item.selected === true)
-    const energy = this.state.energy.find(item => item.selected === true)
-    const mood = this.state.mood.find(item => item.selected === true)
-
-    const entry = { task, amount, energy, mood }
+    let entries = ['tasks', 'amount', 'energy', 'mood']
+      .map(option => {
+        return this.state[option].find(item => item.selected)
+      })
+      .filter(item => item)
 
     this.toggleEntryWindow()
 
-    if (index == null) this.addJournalText(entry)
-    else this.addJournalText(entry, index)
+    if (entries.find(item => item.type === 'tasks')) {
+      if (entries[0].time)
+        entries = [...entries, { timeSpent: this.state.time }]
+
+      index | (index === 0)
+        ? this.addJournalText(entries, index)
+        : this.addJournalText(entries)
+    }
+    console.log(index)
   }
 
   toggleEntryWindow = () => {
@@ -221,74 +215,46 @@ export default class App extends Component {
     })
   }
 
-  createTextConfig = entry => {
-    let textConfig
-    if (entry.amount != null)
-      textConfig = { ...textConfig, amount: entry.amount.text }
-    if (entry.energy != null)
-      textConfig = { ...textConfig, energy: entry.energy.text }
-    if (entry.mood != null)
-      textConfig = { ...textConfig, mood: entry.mood.text }
-    if (entry.task != null)
-      textConfig = { ...textConfig, task: entry.task.text }
-    return textConfig
+  createTextConfig = entries => {
+    return entries.map(item => {
+      if (item.timeSpent | (item.timeSpent === 0)) return item
+      return { [item.type]: item.text }
+    })
   }
 
-  addJournalText = (entry, index) => {
-    if (entry.task != null) {
-      let newEntryText = `I did `
+  addJournalText = (entries, index) => {
+    const textConfig = this.createTextConfig(entries)
 
-      if (entry.amount != null) {
-        newEntryText = newEntryText + entry.amount.text
-      }
+    const entryData = entries.map(item => {
+      if (item.type === 'tasks') return { [item.type]: item.text }
+      else if (item.timeSpent) return item
+      else return { icon: item.icon, text: item.text }
+    })
 
-      newEntryText = newEntryText + ` ` + entry.task.text + `ing `
-
-      if (entry.mood && entry.energy != null) {
-        newEntryText =
-          newEntryText +
-          `and feel ` +
-          entry.mood.text +
-          ` and ` +
-          entry.energy.text
-      } else if (entry.mood != null) {
-        newEntryText = newEntryText + `and feel ` + entry.mood.text
-      } else if (entry.energy != null) {
-        newEntryText = newEntryText + `and feel ` + entry.energy.text
-      }
-
-      const textConfig = this.createTextConfig(entry)
-
-      this.state.editEntry
-        ? this.setState({
-            entryTexts: [
-              ...this.state.entryTexts.slice(0, index),
-              { text: newEntryText, textConfig },
-              ...this.state.entryTexts.slice(index + 1)
-            ],
-            editEntry: !this.state.editEntry
-          })
-        : this.setState({
-            entryTexts: [
-              ...this.state.entryTexts,
-              { text: newEntryText, textConfig }
-            ]
-          })
-    }
+    this.state.editEntry
+      ? this.setState({
+          entryTexts: [
+            ...this.state.entryTexts.slice(0, index),
+            { entryData, textConfig },
+            ...this.state.entryTexts.slice(index + 1)
+          ],
+          editEntry: !this.state.editEntry
+        })
+      : this.setState({
+          entryTexts: [...this.state.entryTexts, { entryData, textConfig }]
+        })
   }
 
   renderJournalTexts = () => {
-    return this.state.entryTexts.map((text, index) => (
-      <ListContainer key={index}>
-        <ListItem key={index}>{text.text}</ListItem>
-        <Button
-          text="Edit"
-          onClick={() => this.prepareEdit(index)}
-          fontSize={12}
-          background="7aa8bf"
+    if (this.state.entryTexts[0])
+      return this.state.entryTexts.map((data, index) => (
+        <EntryCard
+          key={index}
+          data={data.entryData}
+          deleteEntry={() => this.deleteEntry(index)}
+          editEntry={() => this.prepareEdit(index)}
         />
-      </ListContainer>
-    ))
+      ))
   }
 
   replaceEntry = index => {
@@ -296,7 +262,10 @@ export default class App extends Component {
   }
 
   submitNewTask = rawTask => {
-    if (this.state.tasks.findIndex(task => task.text === rawTask.text) !== -1)
+    const indexOfExistingTask = this.state.tasks.findIndex(
+      task => task.text === rawTask.text
+    )
+    if (indexOfExistingTask !== -1)
       this.setState({
         errorMessage: 'Bereits vergeben'
       })
@@ -304,7 +273,7 @@ export default class App extends Component {
       this.toggleEntryWindow()
       const newTasks = [
         ...this.state.tasks,
-        { ...rawTask, selected: false, id: uid() }
+        { ...rawTask, selected: false, id: uid(), type: 'tasks' }
       ]
 
       this.setState({
@@ -319,7 +288,27 @@ export default class App extends Component {
     this.loadAllTags(index)
     this.setState({
       editEntry: !this.state.editEntry,
-      editIndex: index
+      editIndex: index,
+      time: this.getTime(index)
+    })
+  }
+
+  getTime = index => {
+    const time = this.state.entryTexts[index].entryData.find(
+      item => item.timeSpent
+    )
+    if (time) return time.timeSpent
+    else return 15
+  }
+
+  deleteEntry = index => {
+    const newArray = [
+      ...this.state.entryTexts.slice(0, index),
+      ...this.state.entryTexts.slice(index + 1)
+    ]
+
+    this.setState({
+      entryTexts: newArray
     })
   }
 
@@ -331,31 +320,18 @@ export default class App extends Component {
   }
 
   resetTags() {
-    const tasksReseted = this.state.tasks.map(task => {
-      task.selected = false
-      return task
-    })
-
-    const amountReseted = this.state.amount.map(amount => {
-      amount.selected = false
-      return amount
-    })
-
-    const moodReseted = this.state.mood.map(mood => {
-      mood.selected = false
-      return mood
-    })
-
-    const energyReseted = this.state.energy.map(energy => {
-      energy.selected = false
-      return energy
-    })
+    const reset = list => {
+      return list.map(item => {
+        item.selected = false
+        return item
+      })
+    }
 
     this.setState({
-      amount: amountReseted,
-      tasks: tasksReseted,
-      mood: moodReseted,
-      energy: energyReseted
+      tasks: reset(this.state.tasks),
+      amount: reset(this.state.amount),
+      energy: reset(this.state.energy),
+      mood: reset(this.state.mood)
     })
   }
 
@@ -363,27 +339,24 @@ export default class App extends Component {
     this.toggleEntryWindow()
     const textConfig = this.state.entryTexts[index].textConfig
 
-    textConfig.task &&
-      this.loadSelectedTags(this.state.tasks, 'tasks', textConfig.task)
-
-    textConfig.amount &&
-      this.loadSelectedTags(this.state.amount, 'amount', textConfig.amount)
-
-    textConfig.energy &&
-      this.loadSelectedTags(this.state.energy, 'energy', textConfig.energy)
-
-    textConfig.mood &&
-      this.loadSelectedTags(this.state.mood, 'mood', textConfig.mood)
+    textConfig.forEach(item => {
+      Object.entries(item).forEach(([key, value]) => {
+        if (key !== 'timeSpent') this.loadSelectedTags(key, value)
+      })
+    })
   }
 
-  loadSelectedTags = (type, typeName, value) => {
-    const index = type.findIndex(item => item.text === value)
+  loadSelectedTags = (key, keyValue) => {
+    const index = this.state[key].findIndex(item => item.text === keyValue)
+
     const newArray = [
-      ...type.slice(0, index),
-      { ...type[index], selected: true },
-      ...type.slice(index + 1)
+      ...this.state[key].slice(0, index),
+      { ...this.state[key][index], selected: true },
+      ...this.state[key].slice(index + 1)
     ]
-    this.stateUpdateSelector(typeName, newArray)
+    this.setState({
+      [key]: newArray
+    })
   }
 
   selectClickedTag = (id, type, typeName) => {
@@ -391,15 +364,13 @@ export default class App extends Component {
     const indexOld = type.findIndex(item => item.selected === true)
     let newArray
 
-    if (indexOld >= 0) {
-      newArray = [
-        ...type.slice(0, indexOld),
-        { ...type[indexOld], selected: false },
-        ...type.slice(indexOld + 1)
-      ]
-    } else {
-      newArray = type
-    }
+    indexOld < 0
+      ? (newArray = type)
+      : (newArray = [
+          ...type.slice(0, indexOld),
+          { ...type[indexOld], selected: false },
+          ...type.slice(indexOld + 1)
+        ])
 
     if (indexOld !== indexNew)
       newArray = [
@@ -411,22 +382,9 @@ export default class App extends Component {
     this.stateUpdateSelector(typeName, newArray)
   }
 
-  stateUpdateSelector = (typeName, newArray) => {
-    if (typeName === 'tasks')
-      this.setState({
-        tasks: newArray
-      })
-    else if (typeName === 'amount')
-      this.setState({
-        amount: newArray
-      })
-    else if (typeName === 'energy')
-      this.setState({
-        energy: newArray
-      })
-    else
-      this.setState({
-        mood: newArray
-      })
+  stateUpdateSelector = (key, newArray) => {
+    this.setState({
+      [key]: newArray
+    })
   }
 }

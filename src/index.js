@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import * as serviceWorker from './serviceWorker'
+import GlobalStyle from './GlobalStyle'
 
 import App from './components/App'
 
 ReactDOM.render(
   <React.Fragment>
+    <GlobalStyle />
     <App />
   </React.Fragment>,
   document.getElementById('root')
